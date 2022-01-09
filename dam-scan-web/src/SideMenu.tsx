@@ -30,7 +30,7 @@ const options = [
 
 const SideMenuContainer = styled.div`
   background-color: #0883eb;
-  width: 350px;
+  width: 400px;
   text-align: center;
 `;
 
@@ -40,6 +40,8 @@ const SideMenuHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
 `;
 
 const FilterContainer = styled.div`
@@ -47,18 +49,24 @@ const FilterContainer = styled.div`
   align-items: center;
   text-align: center;
   justify-content: space-between;
-  padding: 4px;
+  margin: 5px;
+  position: relative;
+  height: 30px;
 `;
 
 const FilterName = styled.p`
   color: white;
-  font-size: 24px;
+  padding-left: 5px;
+  font-size: 20px;
+  font-weight: 600;
 `;
 
 const SideMenuTitle = styled.p`
   color: white;
-  font-size: 28px;
-  padding: 16px;
+  font-size: 24px;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  font-weight: 700;
 `;
 
 const Icon = styled.img`
@@ -69,9 +77,16 @@ const SiteLogo = styled.img`
   height: 48px;
 `;
 
+const SiteTitle = styled.p`
+  font-size: 40px;
+  padding-left: 10px;
+  color: white;
+  font-weight: 700;
+`;
+
 const FaIconContainer = styled.div`
   display: flex;
-  margin-right: 10px;
+  margin-right: 20px;
   background-color: white;
   width: 25px;
   height: 25px;
@@ -85,14 +100,25 @@ const FilterLabel = styled.div`
   align-items: center;
 `;
 
+const FilterTitleSmall = styled.div`
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  align-self: flex-end;
+  padding: 4px;
+`;
+
 const DisplayButton = styled.div`
   background-color: white;
   color: #0883eb;
   width: 150px;
   text-align: center;
   border-radius: 20px;
-  padding: 10px;
+  padding: 8px;
   margin: 0 auto;
+  margin-top: 20px;
+  font-weight: 700;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 function SideMenu(props: any) {
@@ -144,9 +170,15 @@ function SideMenu(props: any) {
     <div>
       <SideMenuContainer style={{ height: menuActive ? "100vh" : "" }}>
         <SideMenuHeader>
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              paddingLeft: "20px",
+            }}
+          >
             <SiteLogo src={logo} />
-            <h2 style={{ color: "white", fontSize: 45 }}>DamScan</h2>
+            <SiteTitle>DAMSCAN</SiteTitle>
           </div>
 
           <FaIconContainer
@@ -174,8 +206,6 @@ function SideMenu(props: any) {
           <div
             style={{
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
               minHeight: "90%",
             }}
           >
@@ -206,18 +236,40 @@ function SideMenu(props: any) {
                   <Icon src={calendar} />
                   <FilterName>Dates</FilterName>
                 </FilterLabel>
-                {"   "} <p>From</p>
-                <Dropdown
-                  options={options}
+                <div
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    padding: "4px",
+                  }}
+                >
+                  <FilterTitleSmall>From</FilterTitleSmall>
+                </div>
+                <input
+                  type="date"
+                  id="start"
+                  name="trip-start"
                   value={filters.fromDate}
-                  change={changeFromDate}
-                />
-                <p>To</p>
-                <Dropdown
-                  options={options}
+                  onChange={changeFromDate}
+                ></input>
+
+                <div
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    padding: "4px",
+                  }}
+                >
+                  <FilterTitleSmall>To</FilterTitleSmall>
+                </div>
+                <input
+                  style={{ fontSize: "8px" }}
+                  type="date"
+                  id="start"
+                  name="trip-start"
                   value={filters.toDate}
-                  change={changeToDate}
-                />
+                  onChange={changeToDate}
+                ></input>
               </FilterContainer>
 
               <SideMenuTitle>Select a location</SideMenuTitle>
