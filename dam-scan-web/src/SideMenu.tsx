@@ -6,6 +6,7 @@ import {
   faChevronLeft,
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
+import "./App.css";
 
 import logo from "./assets/radar.png";
 import room from "./assets/room.png";
@@ -30,7 +31,7 @@ const options = [
 
 const SideMenuContainer = styled.div`
   background-color: #0883eb;
-  width: 400px;
+  width: 450px;
   text-align: center;
 `;
 
@@ -81,7 +82,7 @@ const SiteTitle = styled.p`
   font-size: 40px;
   padding-left: 10px;
   color: white;
-  font-weight: 700;
+  font-weight: 800;
 `;
 
 const FaIconContainer = styled.div`
@@ -93,6 +94,11 @@ const FaIconContainer = styled.div`
   border-radius: 10px;
   align-items: center;
   text-align: center;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s;
+  &: hover {
+    transform: scale(1.05);
+  }
 `;
 
 const FilterLabel = styled.div`
@@ -119,51 +125,34 @@ const DisplayButton = styled.div`
   margin-top: 20px;
   font-weight: 700;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s;
+  &: hover {
+    transform: scale(1.05);
+  }
+`;
+
+const DateLabelContainer = styled.div`
+  height: 100%;
+  display: flex;
+  padding: 4px;
+`;
+
+const DateInput = styled.input`
+  border: none;
+  border-radius: 4px;
+  padding: 2px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 function SideMenu(props: any) {
-  const [filters, setFilters] = useState({
-    department: "",
-    fromDate: "",
-    toDate: "",
-    room: "",
-    date: "",
-  });
-
-  const changeRoom = (e: any) => {
-    setFilters({
-      ...filters,
-      room: e.target.value,
-    });
-  };
-
-  const changeDate = (e: any) => {
-    setFilters({
-      ...filters,
-      date: e.target.value,
-    });
-  };
-
-  const changeDepartment = (e: any) => {
-    setFilters({
-      ...filters,
-      department: e.target.value,
-    });
-  };
-
-  const changeToDate = (e: any) => {
-    setFilters({
-      ...filters,
-      toDate: e.target.value,
-    });
-  };
-
-  const changeFromDate = (e: any) => {
-    setFilters({
-      ...filters,
-      fromDate: e.target.value,
-    });
-  };
+  const {
+    filters,
+    changeRoom,
+    changeDate,
+    changeDepartment,
+    changeToDate,
+    changeFromDate,
+  } = props;
 
   const [menuActive, setMenuActive] = useState(true);
   return (
@@ -221,7 +210,7 @@ function SideMenu(props: any) {
               <FilterContainer>
                 <FilterLabel>
                   <Icon src={department} />
-                  <FilterName>Department</FilterName>
+                  <FilterName>Category</FilterName>
                 </FilterLabel>
 
                 <Dropdown
@@ -236,40 +225,23 @@ function SideMenu(props: any) {
                   <Icon src={calendar} />
                   <FilterName>Dates</FilterName>
                 </FilterLabel>
-                <div
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    padding: "4px",
-                  }}
-                >
+                <DateLabelContainer>
                   <FilterTitleSmall>From</FilterTitleSmall>
-                </div>
-                <input
+                </DateLabelContainer>
+                <DateInput
                   type="date"
-                  id="start"
-                  name="trip-start"
                   value={filters.fromDate}
                   onChange={changeFromDate}
-                ></input>
+                ></DateInput>
 
-                <div
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    padding: "4px",
-                  }}
-                >
+                <DateLabelContainer>
                   <FilterTitleSmall>To</FilterTitleSmall>
-                </div>
-                <input
-                  style={{ fontSize: "8px" }}
+                </DateLabelContainer>
+                <DateInput
                   type="date"
-                  id="start"
-                  name="trip-start"
                   value={filters.toDate}
                   onChange={changeToDate}
-                ></input>
+                ></DateInput>
               </FilterContainer>
 
               <SideMenuTitle>Select a location</SideMenuTitle>
