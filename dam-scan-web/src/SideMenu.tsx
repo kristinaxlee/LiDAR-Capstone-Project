@@ -33,6 +33,9 @@ const SideMenuContainer = styled.div`
   background-color: #0883eb;
   width: 450px;
   text-align: center;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
 `;
 
 const SideMenuHeader = styled.div`
@@ -43,6 +46,7 @@ const SideMenuHeader = styled.div`
   color: white;
   padding-top: 10px;
   padding-bottom: 10px;
+  flex: 0 1 auto;
 `;
 
 const FilterContainer = styled.div`
@@ -76,11 +80,12 @@ const Icon = styled.img`
 
 const SiteLogo = styled.img`
   height: 48px;
+  padding-left: 20px;
 `;
 
 const SiteTitle = styled.p`
   font-size: 40px;
-  padding-left: 10px;
+
   color: white;
   font-weight: 800;
 `;
@@ -144,36 +149,48 @@ const DateInput = styled.input`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
+const FilterBody = styled.div`
+  flex: 1 1 auto;
+  height: 80%;
+  display: flex;
+  align-items: center;
+`;
+
+const FilterFooter = styled.div`
+  flex: 0 1 40px;
+  padding-left: 33px;
+  padding-bottom: 10px;
+`;
+
 function SideMenu(props: any) {
   const {
     filters,
-    changeRoom,
-    changeDate,
-    changeDepartment,
-    changeToDate,
-    changeFromDate,
+    setRoom,
+    setDate,
+    setDepartment,
+    setToDate,
+    setFromDate,
+    menuActive,
+    setMenuActive,
+    onWindowResize,
   } = props;
 
-  const [menuActive, setMenuActive] = useState(true);
   return (
     <div>
-      <SideMenuContainer style={{ height: menuActive ? "100vh" : "" }}>
-        <SideMenuHeader>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              paddingLeft: "20px",
-            }}
-          >
-            <SiteLogo src={logo} />
-            <SiteTitle>DAMSCAN</SiteTitle>
-          </div>
+      <SideMenuContainer
+        style={{
+          width: menuActive ? "450px" : "88px",
+        }}
+      >
+        <SideMenuHeader id="header">
+          <SiteLogo src={logo} />
+
+          <SiteTitle style={{ display: !menuActive ? "none" : "" }}>
+            DAMSCAN
+          </SiteTitle>
 
           <FaIconContainer
-            onClick={() => {
-              setMenuActive(!menuActive);
-            }}
+            style={{ backgroundColor: "#0883eb", boxShadow: "none" }}
           >
             {menuActive ? (
               <FontAwesomeIcon
@@ -191,88 +208,110 @@ function SideMenu(props: any) {
           </FaIconContainer>
         </SideMenuHeader>
 
-        {menuActive && (
+        <FilterBody>
           <div
             style={{
-              display: "flex",
-              minHeight: "90%",
+              color: "white",
+              width: "90%",
+              alignItems: "center",
+              margin: "auto",
+              display: !menuActive ? "none" : "",
             }}
           >
-            <div
-              style={{
-                color: "white",
-                width: "90%",
-                alignItems: "center",
-                margin: "auto",
-              }}
-            >
-              <SideMenuTitle>Filters</SideMenuTitle>
-              <FilterContainer>
-                <FilterLabel>
-                  <Icon src={department} />
-                  <FilterName>Category</FilterName>
-                </FilterLabel>
+            <SideMenuTitle>Filters</SideMenuTitle>
+            <FilterContainer>
+              <FilterLabel>
+                <Icon src={department} />
+                <FilterName>Category</FilterName>
+              </FilterLabel>
 
-                <Dropdown
-                  options={options}
-                  value={filters.department}
-                  change={changeDepartment}
-                />
-              </FilterContainer>
+              <Dropdown
+                options={options}
+                value={filters.department}
+                change={setDepartment}
+              />
+            </FilterContainer>
 
-              <FilterContainer>
-                <FilterLabel>
-                  <Icon src={calendar} />
-                  <FilterName>Dates</FilterName>
-                </FilterLabel>
-                <DateLabelContainer>
-                  <FilterTitleSmall>From</FilterTitleSmall>
-                </DateLabelContainer>
-                <DateInput
-                  type="date"
-                  value={filters.fromDate}
-                  onChange={changeFromDate}
-                ></DateInput>
+            <FilterContainer>
+              <FilterLabel>
+                <Icon src={calendar} />
+                <FilterName>Dates</FilterName>
+              </FilterLabel>
+              <DateLabelContainer>
+                <FilterTitleSmall>From</FilterTitleSmall>
+              </DateLabelContainer>
+              <DateInput
+                type="date"
+                value={filters.fromDate}
+                onChange={setFromDate}
+              ></DateInput>
 
-                <DateLabelContainer>
-                  <FilterTitleSmall>To</FilterTitleSmall>
-                </DateLabelContainer>
-                <DateInput
-                  type="date"
-                  value={filters.toDate}
-                  onChange={changeToDate}
-                ></DateInput>
-              </FilterContainer>
+              <DateLabelContainer>
+                <FilterTitleSmall>To</FilterTitleSmall>
+              </DateLabelContainer>
+              <DateInput
+                type="date"
+                value={filters.toDate}
+                onChange={setToDate}
+              ></DateInput>
+            </FilterContainer>
 
-              <SideMenuTitle>Select a location</SideMenuTitle>
-              <FilterContainer>
-                <FilterLabel>
-                  <Icon src={room} />
-                  <FilterName>Room</FilterName>
-                </FilterLabel>
+            <SideMenuTitle>Select a location</SideMenuTitle>
+            <FilterContainer>
+              <FilterLabel>
+                <Icon src={room} />
+                <FilterName>Room</FilterName>
+              </FilterLabel>
 
-                <Dropdown
-                  options={options}
-                  value={filters.room}
-                  change={changeRoom}
-                />
-              </FilterContainer>
-              <FilterContainer>
-                <FilterLabel>
-                  <Icon src={date} />
-                  <FilterName>Date</FilterName>
-                </FilterLabel>
+              <Dropdown
+                options={options}
+                value={filters.room}
+                change={setRoom}
+              />
+            </FilterContainer>
+            <FilterContainer>
+              <FilterLabel>
+                <Icon src={date} />
+                <FilterName>Date</FilterName>
+              </FilterLabel>
 
-                <Dropdown
-                  options={options}
-                  value={filters.date}
-                  change={changeDate}
-                />
-              </FilterContainer>
-              <DisplayButton>Display!</DisplayButton>
-            </div>
+              <Dropdown
+                options={options}
+                value={filters.date}
+                change={setDate}
+              />
+            </FilterContainer>
+            <DisplayButton>Display!</DisplayButton>
           </div>
-        )}
+        </FilterBody>
+
+        <FilterFooter>
+          <FaIconContainer
+            onClick={() => {
+              setMenuActive(
+                (curMenuActive: Boolean) => !curMenuActive,
+                () => {
+                  onWindowResize();
+                }
+              );
+            }}
+            id="menu-expand-button"
+          >
+            {menuActive ? (
+              <FontAwesomeIcon
+                style={{ display: "block", margin: "auto" }}
+                icon={faChevronDown}
+                color="#0883eb"
+              />
+            ) : (
+              <FontAwesomeIcon
+                style={{ display: "block", margin: "auto" }}
+                icon={faChevronLeft}
+                color="#0883eb"
+              />
+            )}
+          </FaIconContainer>
+        </FilterFooter>
       </SideMenuContainer>
     </div>
   );
