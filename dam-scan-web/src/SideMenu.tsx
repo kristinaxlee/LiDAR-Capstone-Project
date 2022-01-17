@@ -173,6 +173,7 @@ function SideMenu(props: any) {
     menuActive,
     setMenuActive,
     onWindowResize,
+    renderDisplay,
   } = props;
 
   return (
@@ -281,19 +282,14 @@ function SideMenu(props: any) {
                 change={setDate}
               />
             </FilterContainer>
-            <DisplayButton>Display!</DisplayButton>
+            <DisplayButton onClick={renderDisplay}>Display!</DisplayButton>
           </div>
         </FilterBody>
 
         <FilterFooter>
           <FaIconContainer
             onClick={() => {
-              setMenuActive(
-                (curMenuActive: Boolean) => !curMenuActive,
-                () => {
-                  onWindowResize();
-                }
-              );
+              setMenuActive((curMenuActive: Boolean) => !curMenuActive);
             }}
             id="menu-expand-button"
           >
