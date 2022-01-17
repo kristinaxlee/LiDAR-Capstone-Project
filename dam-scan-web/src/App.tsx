@@ -161,6 +161,8 @@ function App() {
   }, [stateRef.current, menuActive]);*/
 
   return (
+     <>
+    <ZoomMenu/>
     <div
       style={{
         display: "flex",
@@ -186,6 +188,7 @@ function App() {
         </MapTitle>
       </MapContainer>
     </div>
+    </>
   );
 }
 
