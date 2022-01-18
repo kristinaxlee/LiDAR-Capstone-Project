@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import "./App.css";
 import SideMenu from "./SideMenu";
+import ZoomMenu from "./ZoomMenu";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
@@ -10,12 +11,17 @@ const Map = styled.div`
   width: 100%;
   height: 100%;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const MapContainer = styled.div`
   height: 100vh;
-  width: window.innerWidth - 88;
+  width: 100%;
   position: relative;
+  display: flex;
+  align-items: center;
 `;
 
 const MapTitle = styled.div`
@@ -182,14 +188,9 @@ function App() {
           <h3>{filters.date}</h3>
         </MapTitle>
         <Map id="map-container">
-          <p
-            style={{
-              backgroundColor: "pink",
-            }}
-          >
-            Select a room!
-          </p>
+          <div>Select a room to begin.</div>
         </Map>
+        <ZoomMenu />
       </MapContainer>
     </div>
   );
