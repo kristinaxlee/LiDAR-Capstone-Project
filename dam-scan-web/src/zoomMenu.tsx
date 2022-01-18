@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
@@ -10,96 +10,68 @@ import {
   faStreetView,
 } from "@fortawesome/free-solid-svg-icons";
 
-
-  const CenterButton = styled.div`
+const ButtonContainer = styled.div`
   background-color: #0883eb;
   color: white;
   width: 30px;
   height: 30px;
   text-align: center;
   border-radius: 15px;
-  font-size: 30px;
   padding: 10px;
-  position:absolute;
-  bottom: 125px;
+  position: absolute;
   right: 10px;
+  font-size: 30px;
   transition: transform 0.2s;
   &: hover {
     transform: scale(1.05);
   }
- 
-`;
-  const ZoomOut = styled.div`
-  background-color: #0883eb;
-  color: white;
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  border-radius: 15px;
-  padding: 10px;
-  position:absolute;
-  bottom: 5px;
-  right: 10px;
-  font-size: 30px;
-  transition: transform 0.2s;
-  &: hover {
-    transform: scale(1.05);
- 
-`;
-const ZoomIn = styled.div`
-
-background-color: #0883eb;
-color: white;
-width: 30px;
-height: 30px;
-text-align: center;
-border-radius: 15px;
-padding: 10px;
-position:absolute;
-bottom: 65px;
-right: 10px;
-font-size: 30px;
-transition: transform 0.2s;
-&: hover {
-  transform: scale(1.05);
-}
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 function ZoomMenu(props: any) {
-    function HandleCenter(e: any) {
-        
-    }
-    return (
-     <>
-     <div>
-     <ZoomIn><FontAwesomeIcon
-                style={{ display: "block", margin: "auto",}}
-                icon={faSearchPlus}
-                color="#white"
-                font-size="50px"
-              />
-    </ZoomIn>
+  const buttonInfo = [
+    {
+      id: 1,
+      icon: faStreetView,
+      offset: 130,
+      clickHandler: () => {
+        console.log("center button clicked!");
+      },
+    },
+    {
+      id: 2,
+      icon: faSearchPlus,
+      offset: 70,
+      clickHandler: () => {
+        console.log("zoom out button clicked!");
+      },
+    },
+    {
+      id: 3,
+      icon: faSearchMinus,
+      offset: 10,
+      clickHandler: () => {
+        console.log("zoom out button clicked!");
+      },
+    },
+  ];
 
-     <ZoomOut><FontAwesomeIcon
-                style={{ display: "block", margin: "auto",}}
-                icon={faSearchMinus}
-                color="#white"
-                font-size="50px"
-              />
-    </ZoomOut>
-
-     <CenterButton onClick={HandleCenter}><FontAwesomeIcon
-                style={{ display: "block", margin: "auto",}}
-                icon={faStreetView}
-                color="#white"
-                font-size="50px"
-              />
-    </CenterButton>
-              
-     </div>
-     
-     </>
-     
-    );
-  }
-  export default ZoomMenu;
+  return (
+    <>
+      {buttonInfo.map((button: any) => (
+        <ButtonContainer
+          key={button.id}
+          style={{ bottom: button.offset }}
+          onClick={button.clickHandler}
+        >
+          <FontAwesomeIcon
+            style={{ display: "block", margin: "auto" }}
+            icon={button.icon}
+            color="#white"
+          />
+        </ButtonContainer>
+      ))}
+    </>
+  );
+}
+export default ZoomMenu;
