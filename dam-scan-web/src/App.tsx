@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import "./App.css";
 import SideMenu from "./SideMenu";
+import ZoomMenu from "./ZoomMenu";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
@@ -9,12 +10,18 @@ import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
 const Map = styled.div`
   width: 100%;
   height: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const MapContainer = styled.div`
   height: 100vh;
-  width: window.innerWidth - 88;
+  width: 100%;
   position: relative;
+  display: flex;
+  align-items: center;
 `;
 
 const MapTitle = styled.div`
@@ -112,10 +119,7 @@ function App() {
     renderer.render(scene, camera);
   }
 
-  // When app loads, render ThreeJS stuff
-  useEffect(() => {
-    window.addEventListener("resize", onWindowResize, false);
-    //window.addEventListener("click", onWindowResize, false);
+  const renderDisplay = () => {
     scene.background = new THREE.Color("#ffffff");
     scene.add(new THREE.AxesHelper(5));
 
@@ -128,7 +132,7 @@ function App() {
     renderer.outputEncoding = THREE.sRGBEncoding;
     renderer.setSize(window.innerWidth - 88, window.innerHeight);
 
-    document.getElementById("map-container")!.appendChild(renderer.domElement);
+    //document.getElementById("map-container")!.appendChild(renderer.domElement);
 
     controls.enableDamping = true;
 
@@ -149,16 +153,15 @@ function App() {
     );
 
     animate();
-  }, []);
 
-  // Resize ThreeJS window when menu is open/closed (currently not working)
-  /*useEffect(() => {
-    const width = stateRef.current ? 450 : 88;
-    camera.aspect = (window.innerWidth - width) / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth - width, window.innerHeight);
-    render();
-  }, [stateRef.current, menuActive]);*/
+    // Take old rendered map and replace with new one (or replace select message if room has not been previously chosen)
+    var item = document.getElementById("map-container")!.childNodes[0];
+    item.replaceChild(renderer.domElement, item.childNodes[0]);
+  };
+
+  window.addEventListener("resize", onWindowResize, false);
+
+  useEffect(() => {}, []);
 
   return (
     <div
@@ -177,13 +180,17 @@ function App() {
         setMenuActive={setMenuActive}
         menuActive={menuActive}
         onWindowResize={onWindowResize}
+        renderDisplay={renderDisplay}
       />
       <MapContainer>
-        <Map id="map-container"></Map>
         <MapTitle>
           <h1>{filters.room}</h1>
           <h3>{filters.date}</h3>
         </MapTitle>
+        <Map id="map-container">
+          <div>Select a room to begin.</div>
+        </Map>
+        <ZoomMenu />
       </MapContainer>
     </div>
   );
