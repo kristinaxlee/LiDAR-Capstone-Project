@@ -2,14 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import "./App.css";
 import SideMenu from "./SideMenu";
-<<<<<<< Updated upstream
 import ZoomMenu from "./ZoomMenu";
-=======
-import ZoomMenu from "./zoomMenu";
->>>>>>> Stashed changes
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
+import InfoModal from "./InfoModal";
 
 const Map = styled.div`
   width: 100%;
@@ -167,9 +164,7 @@ function App() {
 
   useEffect(() => {}, []);
 
-    return (
-    <>
-    <ZoomMenu/>
+  return (
     <div
       style={{
         display: "flex",
@@ -196,10 +191,12 @@ function App() {
         <Map id="map-container">
           <div>Select a room to begin.</div>
         </Map>
-        <ZoomMenu />
+      <ZoomMenu />
+      <InfoModal/>
+        
       </MapContainer>
-      </div>
-      </>
+     
+    </div>
   );
 }
 

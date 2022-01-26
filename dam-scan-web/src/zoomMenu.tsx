@@ -29,7 +29,6 @@ const ButtonContainer = styled.div`
 `;
 
 function ZoomMenu(props: any) {
-<<<<<<< Updated upstream
   const buttonInfo = [
     {
       id: 1,
@@ -76,39 +75,3 @@ function ZoomMenu(props: any) {
   );
 }
 export default ZoomMenu;
-=======
-    return (
-     <>
-     <div>
-     <ZoomIn><FontAwesomeIcon
-                style={{ display: "block", margin: "auto",}}
-                icon={faSearchPlus}
-                color="#white"
-                font-size="50px"
-              />
-    </ZoomIn>
-
-     <ZoomOut><FontAwesomeIcon
-                style={{ display: "block", margin: "auto",}}
-                icon={faSearchMinus}
-                color="#white"
-                font-size="50px"
-              />
-    </ZoomOut>
-
-     <CenterButton><FontAwesomeIcon
-                style={{ display: "block", margin: "auto",}}
-                icon={faStreetView}
-                color="#white"
-                font-size="50px"
-              />
-    </CenterButton>
-              
-     </div>
-     
-     </>
-     
-    );
-  }
-  export default ZoomMenu;
->>>>>>> Stashed changes
