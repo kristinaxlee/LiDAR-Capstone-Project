@@ -10,6 +10,8 @@ const DropdownSelect = styled.select`
   border: none;
   padding: 2px;
   min-width: 150px;
+  height: 24px;
+  font-size: 14px;
 `;
 
 function Dropdown(props: any) {

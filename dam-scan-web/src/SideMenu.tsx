@@ -47,6 +47,7 @@ const SideMenuHeader = styled.div`
   padding-top: 10px;
   padding-bottom: 10px;
   flex: 0 1 auto;
+  min-height: 88px;
 `;
 
 const FilterContainer = styled.div`
@@ -85,7 +86,6 @@ const SiteLogo = styled.img`
 
 const SiteTitle = styled.p`
   font-size: 40px;
-
   color: white;
   font-weight: 800;
 `;
@@ -116,7 +116,9 @@ const FilterTitleSmall = styled.div`
   font-weight: 600;
   display: inline-block;
   align-self: flex-end;
-  padding: 4px;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-top: 4px;
 `;
 
 const DisplayButton = styled.div`
@@ -145,8 +147,10 @@ const DateLabelContainer = styled.div`
 const DateInput = styled.input`
   border: none;
   border-radius: 4px;
-  padding: 2px;
+  padding: 4px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  height: 24px;
+  font-size: 14px;
 `;
 
 const FilterBody = styled.div`
@@ -159,7 +163,7 @@ const FilterBody = styled.div`
 const FilterFooter = styled.div`
   flex: 0 1 40px;
   padding-left: 33px;
-  padding-bottom: 10px;
+  padding-bottom: 33px;
 `;
 
 function SideMenu(props: any) {
@@ -183,7 +187,7 @@ function SideMenu(props: any) {
           width: menuActive ? "450px" : "88px",
         }}
       >
-        <SideMenuHeader id="header">
+        <SideMenuHeader>
           <SiteLogo src={logo} />
 
           <SiteTitle style={{ display: !menuActive ? "none" : "" }}>
@@ -291,7 +295,6 @@ function SideMenu(props: any) {
             onClick={() => {
               setMenuActive((curMenuActive: Boolean) => !curMenuActive);
             }}
-            id="menu-expand-button"
           >
             {menuActive ? (
               <FontAwesomeIcon
