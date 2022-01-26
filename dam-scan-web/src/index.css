@@ -22,3 +22,47 @@ code {
 p {
   margin: 0;
 }
+#closeBtn{
+  float: left;
+  border-radius: 5px;
+  width: 15px;
+  background:none;
+  border:none;
+  margin:0;
+  padding:0;
+  cursor: pointer;
+  color: white;
+  font-size: 18px;
+  
+}
+.modal-header {
+  background-color: white;
+  top: 0;
+  left: 0;
+  font-size:18px;
+}
+
+.modal-title {
+  font-size:18px;
+  font-weight: bold;
+}
+.modal {
+  box-sizing: border-box;
+  display: none;
+  position: fixed;
+  border-radius: 10px;
+  border: 1px solid;
+  z-index: 9999;
+  right: 0;
+  top: 0;
+  width: 22%;
+  height: 100%;
+  overflow: auto;
+  font-size: 12px;
+  font-weight: thick;
+  color:white;
+  background-color: #0883eb;
+  text-align: center;
+}
+
+
