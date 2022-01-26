@@ -10,14 +10,15 @@ import {
   faStreetView,
 } from "@fortawesome/free-solid-svg-icons";
 
-const ButtonContainer = styled.div`
+const IconContainer = styled.div`
+  display: flex;
+  text-align: center;
   background-color: #0883eb;
   color: white;
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   text-align: center;
   border-radius: 15px;
-  padding: 10px;
   position: absolute;
   right: 10px;
   font-size: 30px;
@@ -59,17 +60,17 @@ function ZoomMenu(props: any) {
   return (
     <>
       {buttonInfo.map((button: any) => (
-        <ButtonContainer
+        <IconContainer
           key={button.id}
           style={{ bottom: button.offset }}
           onClick={button.clickHandler}
         >
           <FontAwesomeIcon
-            style={{ display: "block", margin: "auto" }}
             icon={button.icon}
             color="#white"
+            style={{ margin: "auto" }}
           />
-        </ButtonContainer>
+        </IconContainer>
       ))}
     </>
   );

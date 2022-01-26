@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import "./App.css";
 import SideMenu from "./SideMenu";
-import ZoomMenu from "./ZoomMenu";
+import ZoomMenu from "./zoomMenu";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
@@ -121,43 +121,48 @@ function App() {
   }
 
   const renderDisplay = () => {
-    scene.background = new THREE.Color("#ffffff");
-    scene.add(new THREE.AxesHelper(5));
+    // if room and date have been selected, then execute the following
+    if (filters.room !== "" && filters.date !== "") {
+      scene.background = new THREE.Color("#ffffff");
+      scene.add(new THREE.AxesHelper(5));
 
-    const light = new THREE.SpotLight();
-    light.position.set(20, 20, 20);
-    scene.add(light);
+      const light = new THREE.SpotLight();
+      light.position.set(20, 20, 20);
+      scene.add(light);
 
-    camera.position.z = 40;
+      camera.position.z = 40;
 
-    renderer.outputEncoding = THREE.sRGBEncoding;
-    renderer.setSize(window.innerWidth - 88, window.innerHeight);
+      renderer.outputEncoding = THREE.sRGBEncoding;
+      renderer.setSize(window.innerWidth - 88, window.innerHeight);
 
-    //document.getElementById("map-container")!.appendChild(renderer.domElement);
+      //document.getElementById("map-container")!.appendChild(renderer.domElement);
 
-    controls.enableDamping = true;
+      controls.enableDamping = true;
 
-    loader.load(
-      "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/models/ply/ascii/dolphins.ply",
-      function (geometry) {
-        geometry.computeVertexNormals();
-        const mesh = new THREE.Mesh(geometry, material);
-        mesh.rotateX(-Math.PI / 2);
-        scene.add(mesh);
-      },
-      (xhr) => {
-        console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      loader.load(
+        "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/models/ply/ascii/dolphins.ply",
+        function (geometry) {
+          geometry.computeVertexNormals();
+          const mesh = new THREE.Mesh(geometry, material);
+          mesh.rotateX(-Math.PI / 2);
+          scene.add(mesh);
+        },
+        (xhr) => {
+          console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
 
-    animate();
+      animate();
 
-    // Take old rendered map and replace with new one (or replace select message if room has not been previously chosen)
-    var item = document.getElementById("map-container")!.childNodes[0];
-    item.replaceChild(renderer.domElement, item.childNodes[0]);
+      // Take old rendered map and replace with new one (or replace select message if room has not been previously chosen)
+      var item = document.getElementById("map-container")!.childNodes[0];
+      item.replaceChild(renderer.domElement, item.childNodes[0]);
+    } else {
+      window.alert("Select a room and date!");
+    }
   };
 
   window.addEventListener("resize", onWindowResize, false);
@@ -190,6 +195,7 @@ function App() {
         </MapTitle>
         <Map id="map-container">
           <div>Select a room to begin.</div>
+          <button>Open info</button>
         </Map>
       <ZoomMenu />
       <InfoModal/>
