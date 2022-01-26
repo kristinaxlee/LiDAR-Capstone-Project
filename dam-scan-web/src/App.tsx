@@ -6,6 +6,7 @@ import ZoomMenu from "./ZoomMenu";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
+import InfoModal from "./InfoModal";
 
 const Map = styled.div`
   width: 100%;
@@ -190,8 +191,11 @@ function App() {
         <Map id="map-container">
           <div>Select a room to begin.</div>
         </Map>
-        <ZoomMenu />
+      <ZoomMenu />
+      <InfoModal/>
+        
       </MapContainer>
+     
     </div>
   );
 }
