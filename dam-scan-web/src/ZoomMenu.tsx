@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-//import CameraControls from 'camera-controls';
+
 import {
   faSearchMinus,
   faSearchPlus,
@@ -31,28 +29,22 @@ const IconContainer = styled.div`
 function ZoomMenu(props: any) {
   const buttonInfo = [
     {
-      id: 1,
+      id: "zoom-center",
+      key: 1,
       icon: faStreetView,
       offset: 130,
-      clickHandler: () => {
-        console.log("center button clicked!");
-      },
     },
     {
-      id: 2,
+      id: "zoom-in",
+      key: 2,
       icon: faSearchPlus,
       offset: 70,
-      clickHandler: () => {
-        console.log("zoom out button clicked!");
-      },
     },
     {
-      id: 3,
+      id: "zoom-out",
+      key: 3,
       icon: faSearchMinus,
       offset: 10,
-      clickHandler: () => {
-        console.log("zoom out button clicked!");
-      },
     },
   ];
 
@@ -60,7 +52,8 @@ function ZoomMenu(props: any) {
     <>
       {buttonInfo.map((button: any) => (
         <IconContainer
-          key={button.id}
+          id={button.id}
+          key={button.key}
           style={{ bottom: button.offset }}
           onClick={button.clickHandler}
         >

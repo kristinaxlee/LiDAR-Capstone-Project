@@ -7,6 +7,7 @@ import {
   faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 import "./App.css";
+import { renderDisplay } from "./threeFunctions";
 
 import logo from "./assets/radar.png";
 import room from "./assets/room.png";
@@ -116,9 +117,8 @@ const FilterTitleSmall = styled.div`
   font-weight: 600;
   display: inline-block;
   align-self: flex-end;
-  padding-left: 2px;
-  padding-right: 2px;
-  padding-top: 4px;
+  margin-left: 4px;
+  padding-bottom: 4px;
 `;
 
 const DisplayButton = styled.div`
@@ -141,7 +141,6 @@ const DisplayButton = styled.div`
 const DateLabelContainer = styled.div`
   height: 100%;
   display: flex;
-  padding: 4px;
 `;
 
 const DateInput = styled.input`
@@ -149,7 +148,8 @@ const DateInput = styled.input`
   border-radius: 4px;
   padding: 4px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-size: 13px;
+  font-size: 12px;
+  height: 16px;
 `;
 
 const FilterBody = styled.div`
@@ -175,8 +175,6 @@ function SideMenu(props: any) {
     setFromDate,
     menuActive,
     setMenuActive,
-    onWindowResize,
-    renderDisplay,
   } = props;
 
   return (
@@ -285,7 +283,17 @@ function SideMenu(props: any) {
                 change={setDate}
               />
             </FilterContainer>
-            <DisplayButton onClick={renderDisplay}>Display!</DisplayButton>
+            <DisplayButton
+              onClick={() => {
+                if (filters.room !== "" && filters.date !== "") {
+                  renderDisplay();
+                } else {
+                  window.alert("Please select a room and date!");
+                }
+              }}
+            >
+              Display!
+            </DisplayButton>
           </div>
         </FilterBody>
 
