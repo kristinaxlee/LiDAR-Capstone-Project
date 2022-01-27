@@ -197,11 +197,9 @@ function App() {
           <div>Select a room to begin.</div>
           <button>Open info</button>
         </Map>
-      <ZoomMenu />
-      <InfoModal/>
-        
+        <ZoomMenu />
+        <InfoModal />
       </MapContainer>
-     
     </div>
   );
 }
