@@ -17,7 +17,6 @@ const IconContainer = styled.div`
   color: white;
   width: 50px;
   height: 50px;
-  text-align: center;
   border-radius: 15px;
   position: absolute;
   right: 10px;

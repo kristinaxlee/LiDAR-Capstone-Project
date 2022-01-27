@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import "./App.css";
 import SideMenu from "./SideMenu";
-import ZoomMenu from "./zoomMenu";
+import ZoomMenu from "./ZoomMenu";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
+import InfoModal from "./InfoModal";
 
 const Map = styled.div`
   width: 100%;
@@ -197,6 +198,7 @@ function App() {
           <button>Open info</button>
         </Map>
         <ZoomMenu />
+        <InfoModal />
       </MapContainer>
     </div>
   );
