@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import styled from "styled-components";
-import "./index.css"; // holds the css needed for the modal
+import "../index.css"; // holds the css needed for the modal
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { ModalFooter } from "react-bootstrap";

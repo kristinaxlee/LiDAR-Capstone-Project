@@ -1,9 +1,9 @@
 import React, { useState, useLayoutEffect } from "react";
 import styled from "styled-components";
 import "./App.css";
-import SideMenu from "./SideMenu";
-import ZoomMenu from "./ZoomMenu";
-import InfoModal from "./InfoModal";
+import SideMenu from "./components/SideMenu";
+import ZoomMenu from "./components/ZoomMenu";
+import InfoModal from "./components/InfoModal";
 import { init } from "./threeFunctions";
 
 const Map = styled.div`
@@ -31,7 +31,6 @@ const MapTitle = styled.div`
 `;
 
 function App() {
-  const [menuActive, setMenuActive] = useState(true);
   const [filters, setFilters] = useState({
     department: "",
     fromDate: "",
@@ -93,8 +92,6 @@ function App() {
         setToDate={setToDate}
         setFromDate={setFromDate}
         filters={filters}
-        setMenuActive={setMenuActive}
-        menuActive={menuActive}
       />
 
       <MapContainer id="container">
