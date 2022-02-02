@@ -1,10 +1,13 @@
 import * as THREE from "three";
 import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import CameraControls from "camera-controls";
 
-let camera, scene, renderer, loader, controls, material;
+let camera, scene, renderer, loader, controls, material, cameraControls, clock;
 
 export function init() {
+  CameraControls.install({ THREE: THREE });
+  clock = new THREE.Clock();
   scene = new THREE.Scene();
   renderer = new THREE.WebGLRenderer();
   loader = new PLYLoader();
@@ -14,7 +17,9 @@ export function init() {
     0.1,
     1000
   );
+  camera.position.set(0, 0, 100);
   controls = new OrbitControls(camera, renderer.domElement);
+  cameraControls = new CameraControls(camera, renderer.domElement);
   material = new THREE.MeshPhysicalMaterial({
     color: 0xb2ffc8,
     envMap: null,
@@ -32,39 +37,18 @@ export function init() {
   const zoomOutButton = document.getElementById("zoom-out");
 
   const zoomInFunction = (e) => {
-    const fov = getFov();
-    camera.fov = clickZoom(fov, "zoomIn");
+    cameraControls.dolly(10, true);
+    camera.updateProjectionMatrix();
+  };
+
+  const zoomOutFunction = (e) => {
+    cameraControls.dolly(-10, true);
     camera.updateProjectionMatrix();
   };
 
   zoomInButton.addEventListener("click", zoomInFunction);
-
-  const zoomOutFunction = (e) => {
-    const fov = getFov();
-    camera.fov = clickZoom(fov, "zoomOut");
-    camera.updateProjectionMatrix();
-  };
-
   zoomOutButton.addEventListener("click", zoomOutFunction);
 
-  const clickZoom = (value, zoomType) => {
-    if (value >= 10 && zoomType === "zoomIn") {
-      return value - 5;
-    } else if (value <= 75 && zoomType === "zoomOut") {
-      return value + 5;
-    } else {
-      return value;
-    }
-  };
-
-  const getFov = () => {
-    return Math.floor(
-      (2 *
-        Math.atan(camera.getFilmHeight() / 2 / camera.getFocalLength()) *
-        180) /
-        Math.PI
-    );
-  };
   window.addEventListener("resize", onWindowResize, false);
 }
 
@@ -79,6 +63,9 @@ function onWindowResize() {
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
+
+  const delta = clock.getDelta();
+  cameraControls.update(delta);
   render();
 }
 
@@ -117,9 +104,9 @@ export function renderDisplay() {
     }
   );
 
-  animate();
-
   // take old rendered map and replace with new one
   var item = document.getElementById("map-container").childNodes[0];
   item.replaceChild(renderer.domElement, item.childNodes[0]);
+
+  animate();
 }
