@@ -48,11 +48,11 @@ const options = [
 ];
 
 function SideMenu(props: any) {
-  const { filters, setRoom, setDate, setDepartment, setToDate, setFromDate } =
+  const { filters, setRoom, setDate, setDepartment, setToDate, setFromDate, setTitles } =
     props;
 
   const [menuActive, setMenuActive] = useState(true);
-
+  
   return (
     <div>
       <SideMenuContainer
@@ -163,6 +163,12 @@ function SideMenu(props: any) {
               onClick={() => {
                 if (filters.room !== "" && filters.date !== "") {
                   renderDisplay();
+                  setTitles({
+                    curDate: filters.date,
+                    curRoom: filters.room,
+                    displayClicked: true, 
+
+                  })
                 } else {
                   window.alert("Please select a room and date!");
                 }

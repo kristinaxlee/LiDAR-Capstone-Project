@@ -28,7 +28,7 @@ const InfoButton = styled.div`
 
 function InformationModal(props: any) {
   return (
-    <Modal {...props} size="lg">
+    <Modal {...props} size="lg" className="InformationModal">
       <FontAwesomeIcon
         id="closeBtn"
         onClick={props.onHide}
@@ -37,9 +37,11 @@ function InformationModal(props: any) {
       />
 
       <br />
+      <Modal.Header>
       <Modal.Title id="contained-modal-title-vcenter">
         About DamScan
       </Modal.Title>
+      </Modal.Header>
       <br />
       <Modal.Body>
         <p>

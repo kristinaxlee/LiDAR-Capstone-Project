@@ -5,6 +5,7 @@ import SideMenu from "./components/SideMenu";
 import ZoomMenu from "./components/ZoomMenu";
 import InfoModal from "./components/InfoModal";
 import { init } from "./threeFunctions";
+import TipToasts from "./components/Toasts";
 
 const Map = styled.div`
   width: 100%;
@@ -31,6 +32,11 @@ const MapTitle = styled.div`
 `;
 
 function App() {
+  const [titles, setTitles] = useState({
+    curRoom: "",
+    curDate: "",
+    displayClicked: false
+  });
   const [filters, setFilters] = useState({
     department: "",
     fromDate: "",
@@ -38,7 +44,31 @@ function App() {
     room: "",
     date: "",
   });
+  const setCurRoom = (e: any) => {
+    setTitles({
+      ...titles,
+      curRoom: e.target.value,
+    });
 
+
+  }
+  const setCurDate = (e: any) => {
+    setTitles({
+      ...titles,
+      curDate: e.target.value,
+    });
+
+
+  }
+
+  const setDisplayClicked = (e: any) => {
+    setTitles({
+      ...titles,
+      displayClicked: e.target.value,
+    });
+
+
+  }
   const setRoom = (e: any) => {
     setFilters({
       ...filters,
@@ -92,18 +122,23 @@ function App() {
         setToDate={setToDate}
         setFromDate={setFromDate}
         filters={filters}
+        setTitles = {setTitles}
       />
 
       <MapContainer id="container">
         <MapTitle>
-          <h1>{filters.room}</h1>
-          <h3>{filters.date}</h3>
+        {titles.displayClicked && <div>
+          <h1>{titles.curRoom}</h1>
+          <h3>{titles.curDate}</h3>
+          </div>}
+            
         </MapTitle>
         <Map id="map-container">
           <div>Select a room to begin.</div>
         </Map>
         <ZoomMenu />
         <InfoModal />
+        <TipToasts />
       </MapContainer>
     </div>
   );
