@@ -59,6 +59,7 @@ function SideMenu(props: any) {
         style={{
           width: menuActive ? "450px" : "88px",
         }}
+        id="side-menu"
       >
         <SideMenuHeader>
           <SiteLogo src={logo} />
@@ -160,6 +161,7 @@ function SideMenu(props: any) {
               />
             </FilterContainer>
             <DisplayButton
+              id="display-button"
               onClick={() => {
                 if (filters.room !== "" && filters.date !== "") {
                   renderDisplay();
@@ -175,6 +177,7 @@ function SideMenu(props: any) {
 
         <FilterFooter>
           <FaIconContainer
+            id="expand-menu-button"
             onClick={() => {
               setMenuActive((curMenuActive: Boolean) => !curMenuActive);
             }}
