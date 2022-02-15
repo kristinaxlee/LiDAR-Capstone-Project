@@ -6,7 +6,37 @@ import ZoomMenu from "./components/ZoomMenu";
 import InfoModal from "./components/InfoModal";
 import { init } from "./threeFunctions";
 import TipToasts from "./components/Toasts";
+import Toast  from 'react-bootstrap/Toast'
+import ToastContainer from 'react-bootstrap/ToastContainer'
 
+import logo from "./assets/radar.png";
+export const SiteLogoBlue = styled.img`
+  height: 20px;
+  padding-left: 20px;
+`;
+function WarningToast(){
+  const [showWarningToast, SetShowWarningToast]= useState(true);
+    const toggleShowWarningToast = () => SetShowWarningToast(!showWarningToast);
+    return(
+      <div>
+        
+      <ToastContainer position="top-center">
+        
+      <Toast show={showWarningToast} bg= {"Warning"} onClose={toggleShowWarningToast}  delay={4000} autohide className="Warning">
+        <Toast.Header>
+        <SiteLogoBlue src={logo}/>
+          <strong>Warning</strong>
+        </Toast.Header> 
+        <Toast.Body>
+          Please select a room and a date
+        
+        </Toast.Body>
+        
+      </Toast>
+      </ToastContainer>
+      </div>
+    );
+}
 const Map = styled.div`
   width: 100%;
   height: 100%;
@@ -32,6 +62,7 @@ const MapTitle = styled.div`
 `;
 
 function App() {
+  const [error, setError] = useState(true)
   const [titles, setTitles] = useState({
     curRoom: "",
     curDate: "",
@@ -44,31 +75,6 @@ function App() {
     room: "",
     date: "",
   });
-  const setCurRoom = (e: any) => {
-    setTitles({
-      ...titles,
-      curRoom: e.target.value,
-    });
-
-
-  }
-  const setCurDate = (e: any) => {
-    setTitles({
-      ...titles,
-      curDate: e.target.value,
-    });
-
-
-  }
-
-  const setDisplayClicked = (e: any) => {
-    setTitles({
-      ...titles,
-      displayClicked: e.target.value,
-    });
-
-
-  }
   const setRoom = (e: any) => {
     setFilters({
       ...filters,
@@ -123,6 +129,7 @@ function App() {
         setFromDate={setFromDate}
         filters={filters}
         setTitles = {setTitles}
+        setError = {setError}
       />
 
       <MapContainer id="container">
@@ -139,6 +146,13 @@ function App() {
         <ZoomMenu />
         <InfoModal />
         <TipToasts />
+        
+        
+        {(!(titles.curDate && titles.curRoom) && !error && titles.displayClicked)&& <div>
+        <WarningToast/>
+        </div>}
+        
+        
       </MapContainer>
     </div>
   );

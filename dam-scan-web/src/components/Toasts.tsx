@@ -78,7 +78,7 @@ function TipToasts(){
       </ToastContainer>
       </>
     );
-
+  
 
 
 }
@@ -87,4 +87,9 @@ function TipToasts(){
 
 
 
+
+
 export default TipToasts;
+
+
+

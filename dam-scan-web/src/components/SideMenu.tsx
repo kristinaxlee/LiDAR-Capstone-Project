@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Dropdown from "./Dropdown";
+
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
@@ -7,12 +8,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "../App.css";
 import { renderDisplay } from "../threeFunctions";
-
 import logo from "../assets/radar.png";
 import room from "../assets/room.png";
 import date from "../assets/calendar-day.png";
 import department from "../assets/department.png";
 import calendar from "../assets/calendar.png";
+import Dropdown from "./Dropdown";
 import {
   DateInput,
   DateLabelContainer,
@@ -32,6 +33,7 @@ import {
   SiteTitle,
 } from "./ui/SideMenuUI";
 
+
 const options = [
   {
     id: 1,
@@ -47,8 +49,10 @@ const options = [
   },
 ];
 
+
+
 function SideMenu(props: any) {
-  const { filters, setRoom, setDate, setDepartment, setToDate, setFromDate, setTitles } =
+  const { filters, setRoom, setDate, setDepartment, setToDate, setFromDate, setTitles, setError} =
     props;
 
   const [menuActive, setMenuActive] = useState(true);
@@ -171,8 +175,14 @@ function SideMenu(props: any) {
                     displayClicked: true, 
 
                   })
+                  
                 } else {
-                  window.alert("Please select a room and date!");
+                  setError(false)
+                  setTitles({
+                    
+                    displayClicked: true, 
+
+                  })
                 }
               }}
             >
