@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import Dropdown from "./Dropdown";
+
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
@@ -7,12 +8,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "../App.css";
 import { renderDisplay } from "../threeFunctions";
-
 import logo from "../assets/radar.png";
 import room from "../assets/room.png";
 import date from "../assets/calendar-day.png";
 import department from "../assets/department.png";
 import calendar from "../assets/calendar.png";
+import Dropdown from "./Dropdown";
 import {
   DateInput,
   DateLabelContainer,
@@ -32,6 +33,7 @@ import {
   SiteTitle,
 } from "./ui/SideMenuUI";
 
+
 const options = [
   {
     id: 1,
@@ -47,18 +49,21 @@ const options = [
   },
 ];
 
+
+
 function SideMenu(props: any) {
-  const { filters, setRoom, setDate, setDepartment, setToDate, setFromDate } =
+  const { filters, setRoom, setDate, setDepartment, setToDate, setFromDate, setTitles, setError} =
     props;
 
   const [menuActive, setMenuActive] = useState(true);
-
+  
   return (
     <div>
       <SideMenuContainer
         style={{
           width: menuActive ? "450px" : "88px",
         }}
+        id="side-menu"
       >
         <SideMenuHeader>
           <SiteLogo src={logo} />
@@ -160,11 +165,24 @@ function SideMenu(props: any) {
               />
             </FilterContainer>
             <DisplayButton
+              id="display-button"
               onClick={() => {
                 if (filters.room !== "" && filters.date !== "") {
                   renderDisplay();
+                  setTitles({
+                    curDate: filters.date,
+                    curRoom: filters.room,
+                    displayClicked: true, 
+
+                  })
+                  
                 } else {
-                  window.alert("Please select a room and date!");
+                  setError(false)
+                  setTitles({
+                    
+                    displayClicked: true, 
+
+                  })
                 }
               }}
             >
@@ -175,6 +193,7 @@ function SideMenu(props: any) {
 
         <FilterFooter>
           <FaIconContainer
+            id="expand-menu-button"
             onClick={() => {
               setMenuActive((curMenuActive: Boolean) => !curMenuActive);
             }}

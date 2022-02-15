@@ -24,13 +24,8 @@ p {
 }
 
 #closeBtn {
-  float: left;
-  border-radius: 5px;
+ 
   width: 15px;
-  background: none;
-  border: none;
-  margin: 0;
-  padding: 10px;
   cursor: pointer;
   color: white;
   font-size: 18px;
@@ -40,20 +35,7 @@ p {
 #closeBtn:hover {
   transform: scale(1.05);
 }
-
-.modal-header {
-  background-color: white;
-  top: 0;
-  left: 0;
-  font-size: 18px;
-}
-
-.modal-title {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.modal {
+.InformationModal .modal-content{
   box-sizing: border-box;
   position: fixed;
   border-radius: 10px;
@@ -72,7 +54,16 @@ p {
   text-align: center;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+.quickTips .toast-body{
 
-.modal-body {
-  padding: 10px;
+  color: white;
+  background-color: #0883eb;
+  border: 1px solid black;
+  
+}
+.quickTips .toast-header{
+border: 1px solid black;
+
+  
+  
 }
