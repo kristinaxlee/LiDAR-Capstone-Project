@@ -52,7 +52,7 @@ const options = [
 
 
 function SideMenu(props: any) {
-  const { filters, setRoom, setDate, setDepartment, setToDate, setFromDate, setTitles, setError} =
+  const { filters, setRoom, setDate, setDepartment, setToDate, setFromDate, setTitles, setError, setFirstLoad} =
     props;
 
   const [menuActive, setMenuActive] = useState(true);
@@ -169,20 +169,18 @@ function SideMenu(props: any) {
               onClick={() => {
                 if (filters.room !== "" && filters.date !== "") {
                   renderDisplay();
+                  setError(false)
                   setTitles({
                     curDate: filters.date,
                     curRoom: filters.room,
                     displayClicked: true, 
 
                   })
-                  
+                  setFirstLoad(true)
                 } else {
-                  setError(false)
-                  setTitles({
-                    
-                    displayClicked: true, 
-
-                  })
+                  setFirstLoad(false)
+                  setError(true)
+                  
                 }
               }}
             >

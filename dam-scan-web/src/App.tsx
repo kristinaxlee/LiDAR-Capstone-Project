@@ -10,6 +10,7 @@ import Toast  from 'react-bootstrap/Toast'
 import ToastContainer from 'react-bootstrap/ToastContainer'
 
 import logo from "./assets/radar.png";
+
 export const SiteLogoBlue = styled.img`
   height: 20px;
   padding-left: 20px;
@@ -22,7 +23,7 @@ function WarningToast(){
         
       <ToastContainer position="top-center">
         
-      <Toast show={showWarningToast} bg= {"Warning"} onClose={toggleShowWarningToast}  delay={4000} autohide className="Warning">
+      <Toast show={showWarningToast} bg= {"danger"} onClose={toggleShowWarningToast}  delay={4000} autohide className="Warning">
         <Toast.Header>
         <SiteLogoBlue src={logo}/>
           <strong>Warning</strong>
@@ -62,7 +63,8 @@ const MapTitle = styled.div`
 `;
 
 function App() {
-  const [error, setError] = useState(true)
+  const [error, setError] = useState(false)
+  const [firstLoad, setFirstLoad] = useState(false)
   const [titles, setTitles] = useState({
     curRoom: "",
     curDate: "",
@@ -130,6 +132,7 @@ function App() {
         filters={filters}
         setTitles = {setTitles}
         setError = {setError}
+        setFirstLoad={setFirstLoad}
       />
 
       <MapContainer id="container">
@@ -147,10 +150,8 @@ function App() {
         <InfoModal />
         <TipToasts />
         
-        
-        {(!(titles.curDate && titles.curRoom) && !error && titles.displayClicked)&& <div>
-        <WarningToast/>
-        </div>}
+        {firstLoad && <TipToasts/>}
+        {error && <WarningToast/>}
         
         
       </MapContainer>
