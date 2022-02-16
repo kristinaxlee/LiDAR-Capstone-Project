@@ -49,21 +49,16 @@ export const RightMouse = styled.img`
 `;
 
 function TipToasts(){
-    const [showToast, SetShowToast]= useState(false);
+    
+    const [showToast, SetShowToast]= useState(true);
     const toggleShowToast = () => SetShowToast(!showToast);
     return(
         <>
         
-        <TipButton onClick={toggleShowToast} className="mb-2">
-        <FontAwesomeIcon
-          icon={faCommentAlt}
-          color="#white"
-          style={{ margin: "auto" }}
-        />
-      </TipButton>
+       
       <ToastContainer position="top-center">
         
-      <Toast show={showToast} onClose={toggleShowToast}  delay={4000} autohide className="quickTips">
+      <Toast show={showToast} onClose={toggleShowToast}  delay={2000} autohide className="quickTips">
         <Toast.Header>
         <SiteLogoBlue src={logo}/>
           <strong> Quick Tips</strong>
