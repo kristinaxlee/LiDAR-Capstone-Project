@@ -1,75 +1,23 @@
 import React, { useState, useLayoutEffect } from "react";
-import styled from "styled-components";
 import "./App.css";
 import SideMenu from "./components/SideMenu";
 import ZoomMenu from "./components/ZoomMenu";
 import InfoModal from "./components/InfoModal";
 import { init } from "./threeFunctions";
-import TipToasts from "./components/Toasts";
-import Toast  from 'react-bootstrap/Toast'
-import ToastContainer from 'react-bootstrap/ToastContainer'
-
-import logo from "./assets/radar.png";
-
-export const SiteLogoBlue = styled.img`
-  height: 20px;
-  padding-left: 20px;
-`;
-function WarningToast(){
-  const [showWarningToast, SetShowWarningToast]= useState(true);
-    const toggleShowWarningToast = () => SetShowWarningToast(!showWarningToast);
-    return(
-      <div>
-        
-      <ToastContainer position="top-center">
-        
-      <Toast show={showWarningToast} bg= {"danger"} onClose={toggleShowWarningToast}  delay={4000} autohide className="Warning">
-        <Toast.Header>
-        <SiteLogoBlue src={logo}/>
-          <strong>Warning</strong>
-        </Toast.Header> 
-        <Toast.Body>
-          Please select a room and a date
-        
-        </Toast.Body>
-        
-      </Toast>
-      </ToastContainer>
-      </div>
-    );
-}
-const Map = styled.div`
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const MapContainer = styled.div`
-  height: 100vh;
-  width: 100%;
-  position: relative;
-  display: flex;
-  align-items: center;
-`;
-
-const MapTitle = styled.div`
-  position: absolute;
-  top: 0;
-  width: 100%;
-  text-align: center;
-`;
+import { MapContainer, MapTitle, Map } from "./components/ui/AppUI";
+import { TipToasts, WarningToast } from "./components/Toasts";
 
 function App() {
-  const [error, setError] = useState(false)
-  const [firstLoad, setFirstLoad] = useState(false)
+  const [showWarning, setShowWarning] = useState(false);
+  const [firstLoad, setFirstLoad] = useState(true);
+  const [showTips, setShowTips] = useState(false);
+
   const [titles, setTitles] = useState({
     curRoom: "",
     curDate: "",
-    displayClicked: false
+    displayClicked: false,
   });
+
   const [filters, setFilters] = useState({
     department: "",
     fromDate: "",
@@ -77,6 +25,7 @@ function App() {
     room: "",
     date: "",
   });
+
   const setRoom = (e: any) => {
     setFilters({
       ...filters,
@@ -130,30 +79,31 @@ function App() {
         setToDate={setToDate}
         setFromDate={setFromDate}
         filters={filters}
-        setTitles = {setTitles}
-        setError = {setError}
+        setTitles={setTitles}
+        setShowWarning={setShowWarning}
+        firstLoad={firstLoad}
         setFirstLoad={setFirstLoad}
+        setShowTips={setShowTips}
       />
-
       <MapContainer id="container">
         <MapTitle>
-        {titles.displayClicked && <div>
-          <h1>{titles.curRoom}</h1>
-          <h3>{titles.curDate}</h3>
-          </div>}
-            
+          {titles.displayClicked && (
+            <div>
+              <h1 style={{ fontWeight: 700 }}>{titles.curRoom}</h1>
+              <h3 style={{ fontWeight: 600 }}>{titles.curDate}</h3>
+            </div>
+          )}
         </MapTitle>
         <Map id="map-container">
           <div>Select a room to begin.</div>
         </Map>
         <ZoomMenu />
         <InfoModal />
-        <TipToasts />
-        
-        {firstLoad && <TipToasts/>}
-        {error && <WarningToast/>}
-        
-        
+        <TipToasts showTips={showTips} setShowTips={setShowTips} />
+        <WarningToast
+          showWarning={showWarning}
+          setShowWarning={setShowWarning}
+        />
       </MapContainer>
     </div>
   );
