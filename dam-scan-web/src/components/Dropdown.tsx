@@ -5,7 +5,7 @@ function Dropdown(props: any) {
   return (
     <DropdownContainer>
       <DropdownSelect onChange={props.change} value={props.value}>
-        <option value="0">-- --</option>
+        <option value="">-- --</option>
         {props.options.map((item: any) => (
           <option key={item.id} value={item.id}>
             {item.name}

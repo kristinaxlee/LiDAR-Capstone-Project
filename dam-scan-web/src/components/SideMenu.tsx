@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Dropdown from "./Dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
@@ -7,12 +6,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "../App.css";
 import { renderDisplay } from "../threeFunctions";
-
 import logo from "../assets/radar.png";
 import room from "../assets/room.png";
 import date from "../assets/calendar-day.png";
 import department from "../assets/department.png";
 import calendar from "../assets/calendar.png";
+import Dropdown from "./Dropdown";
 import {
   DateInput,
   DateLabelContainer,
@@ -48,8 +47,19 @@ const options = [
 ];
 
 function SideMenu(props: any) {
-  const { filters, setRoom, setDate, setDepartment, setToDate, setFromDate } =
-    props;
+  const {
+    filters,
+    setRoom,
+    setDate,
+    setDepartment,
+    setToDate,
+    setFromDate,
+    setTitles,
+    setShowWarning,
+    setFirstLoad,
+    firstLoad,
+    setShowTips,
+  } = props;
 
   const [menuActive, setMenuActive] = useState(true);
 
@@ -163,10 +173,22 @@ function SideMenu(props: any) {
             <DisplayButton
               id="display-button"
               onClick={() => {
+                // if user correctly picks a room and date, then display the scan and update the titles
                 if (filters.room !== "" && filters.date !== "") {
                   renderDisplay();
+                  setShowWarning(false);
+                  setTitles({
+                    curDate: filters.date,
+                    curRoom: filters.room,
+                    displayClicked: true,
+                  });
+                  // if this is user's first load, then show tips then set first load to false
+                  if (firstLoad) {
+                    setShowTips(true);
+                    setFirstLoad(false);
+                  }
                 } else {
-                  window.alert("Please select a room and date!");
+                  setShowWarning(true);
                 }
               }}
             >

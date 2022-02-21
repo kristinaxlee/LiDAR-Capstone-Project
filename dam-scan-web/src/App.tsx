@@ -1,36 +1,23 @@
 import React, { useState, useLayoutEffect } from "react";
-import styled from "styled-components";
 import "./App.css";
 import SideMenu from "./components/SideMenu";
 import ZoomMenu from "./components/ZoomMenu";
 import InfoModal from "./components/InfoModal";
 import { init } from "./threeFunctions";
-
-const Map = styled.div`
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const MapContainer = styled.div`
-  height: 100vh;
-  width: 100%;
-  position: relative;
-  display: flex;
-  align-items: center;
-`;
-
-const MapTitle = styled.div`
-  position: absolute;
-  top: 0;
-  width: 100%;
-  text-align: center;
-`;
+import { MapContainer, MapTitle, Map } from "./components/ui/AppUI";
+import { TipToasts, WarningToast } from "./components/Toasts";
 
 function App() {
+  const [showWarning, setShowWarning] = useState(false);
+  const [firstLoad, setFirstLoad] = useState(true);
+  const [showTips, setShowTips] = useState(false);
+
+  const [titles, setTitles] = useState({
+    curRoom: "",
+    curDate: "",
+    displayClicked: false,
+  });
+
   const [filters, setFilters] = useState({
     department: "",
     fromDate: "",
@@ -92,18 +79,31 @@ function App() {
         setToDate={setToDate}
         setFromDate={setFromDate}
         filters={filters}
+        setTitles={setTitles}
+        setShowWarning={setShowWarning}
+        firstLoad={firstLoad}
+        setFirstLoad={setFirstLoad}
+        setShowTips={setShowTips}
       />
-
       <MapContainer id="container">
         <MapTitle>
-          <h1>{filters.room}</h1>
-          <h3>{filters.date}</h3>
+          {titles.displayClicked && (
+            <div>
+              <h1 style={{ fontWeight: 700 }}>{titles.curRoom}</h1>
+              <h3 style={{ fontWeight: 600 }}>{titles.curDate}</h3>
+            </div>
+          )}
         </MapTitle>
         <Map id="map-container">
           <div>Select a room to begin.</div>
         </Map>
         <ZoomMenu />
         <InfoModal />
+        <TipToasts showTips={showTips} setShowTips={setShowTips} />
+        <WarningToast
+          showWarning={showWarning}
+          setShowWarning={setShowWarning}
+        />
       </MapContainer>
     </div>
   );

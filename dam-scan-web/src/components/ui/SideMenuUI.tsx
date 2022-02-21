@@ -3,10 +3,10 @@ import styled from "styled-components";
 export const DateInput = styled.input`
   border: none;
   border-radius: 4px;
-  padding: 4px;
+  padding: 2px;
+  padding-left: 4px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-size: 12px;
-  height: 16px;
 `;
 
 export const DateLabelContainer = styled.div`
@@ -134,3 +134,4 @@ export const SiteTitle = styled.p`
   color: white;
   font-weight: 800;
 `;
+

@@ -50,7 +50,7 @@ export function init() {
 
   // attach side menu resize handlers to menu close and display buttons
   expandMenuButton.addEventListener("click", onMenuResize);
-  displayButton.addEventListener("click", onMenuResize);
+  displayButton.addEventListener("click", onWindowResize);
 
   // attach zoom events handlers to buttons
   zoomInButton.addEventListener("click", zoomIn);
