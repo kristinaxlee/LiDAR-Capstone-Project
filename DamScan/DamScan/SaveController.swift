@@ -154,13 +154,11 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         buildingPicker.dataSource = self
         buildingPicker.translatesAutoresizingMaskIntoConstraints =  false
 //        buildingPicker.delegate?.pickerView?(buildingPicker, didSelectRow: 0, inComponent: 0)
-//        view.addSubview(buildingPicker)
         
         roomPicker.delegate = self
         roomPicker.dataSource = self
         roomPicker.translatesAutoresizingMaskIntoConstraints =  false
 //        roomPicker.delegate?.pickerView?(roomPicker, didSelectRow: 0, inComponent: 0)
-//        view.addSubview(roomPicker)
         
         saveCurrentScanLabel.text = "Current Scan: \(mainController.renderer.highConfCount) points"
         saveCurrentScanLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -219,14 +217,6 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             roomTextField.leftAnchor.constraint(equalTo: buildingInputLabel.rightAnchor, constant: 10),
             roomTextField.widthAnchor.constraint(equalToConstant: 225),
             roomTextField.heightAnchor.constraint(equalToConstant: 45),
-            
-//            buildingPicker.heightAnchor.constraint(equalToConstant: 150),
-//            buildingPicker.topAnchor.constraint(equalTo: fileName.bottomAnchor, constant: 10),
-//            buildingPicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//
-//            roomPicker.heightAnchor.constraint(equalToConstant: 150),
-//            roomPicker.topAnchor.constraint(equalTo: buildingPicker.bottomAnchor, constant: 10),
-//            roomPicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
             spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
@@ -236,68 +226,6 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             saveCurrentButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
     }
-    
-    /// Picker delegate methods
-//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-//        return 2
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-//        switch component {
-//            case 0 : return buildingData.count
-//            case 1 :
-//                let selectedRow = pickerView.selectedRow(inComponent: 0)
-//                let selectedBuilding = buildingData[selectedRow]
-//            return locationDict[selectedBuilding]?.count ?? 0
-//        default: return 0
-//        }
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-//        switch component {
-//            case 0 : return buildingData[row]
-//            case 1 :
-//                let selectedRow = pickerView.selectedRow(inComponent: 0)
-//                let selectedBuilding = buildingData[selectedRow]
-//            return locationDict[selectedBuilding]?[row] ?? ""
-//        default: return ""
-//        }
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-//        switch component {
-//            case 0 :
-//                selectedBuilding = buildingData[row]
-//                pickerView.reloadComponent(1)
-//                pickerView.selectRow(0, inComponent: 1, animated: true)
-//            case 1 :
-//                let selectedRow = pickerView.selectedRow(inComponent: 0)
-//                let selectedBuilding = buildingData[selectedRow]
-//            selectedRoom = locationDict[selectedBuilding]?[row] ?? "Empty"
-//        default:
-//            selectedBuilding = "Empty"
-//            selectedRoom = "Empty"
-//        }
-//    }
-//
-//    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
-//        let pickerLabel = UILabel()
-//        pickerLabel.adjustsFontSizeToFitWidth = true
-//
-//        switch component {
-//            case 0 :
-//                pickerLabel.text = buildingData[row]
-//            case 1 :
-//                let selectedRow = pickerView.selectedRow(inComponent: 0)
-//                let selectedBuilding = buildingData[selectedRow]
-//                pickerLabel.text = locationDict[selectedBuilding]?[row] ?? "Empty"
-//            pickerLabel.textAlignment = .right
-//        default:
-//            pickerLabel.text = ""
-//        }
-//
-//        return pickerLabel
-//    }
     
     @objc func dismissView() {
         self.dismiss(animated: true, completion: nil)
