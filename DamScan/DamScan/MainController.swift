@@ -261,6 +261,7 @@ extension MainController {
     func afterSave() -> Void {
         let err = renderer.savingError
         if err == nil {
+            displaySuccessMessage(title: "Scan submitted")
             return export(url: renderer.savedCloudURLs.last!)
         }
         try? FileManager.default.removeItem(at: renderer.savedCloudURLs.last!)
@@ -296,6 +297,17 @@ extension MainController {
         }
         
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        alert.view.subviews.first?.subviews.first?.subviews.first?.backgroundColor = .red
+        present(alert, animated: true, completion: nil)
+        let when = DispatchTime.now() + 2
+        DispatchQueue.main.asyncAfter(deadline: when) {
+            alert.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func displaySuccessMessage(title: String) -> Void {
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        alert.view.subviews.first?.subviews.first?.subviews.first?.backgroundColor = .green
         present(alert, animated: true, completion: nil)
         let when = DispatchTime.now() + 2
         DispatchQueue.main.asyncAfter(deadline: when) {
