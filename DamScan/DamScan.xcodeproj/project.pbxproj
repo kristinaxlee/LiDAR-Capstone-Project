@@ -18,7 +18,6 @@
 		17301DA32796205F00AF952F /* InfoLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17301DA22796205F00AF952F /* InfoLogoView.swift */; };
 		1737C4FF27B4563000DD0381 /* SaveControllerDiff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1737C4FE27B4563000DD0381 /* SaveControllerDiff.swift */; };
 		1753F054278F8BB500843801 /* InfoScrollController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1753F053278F8BB500843801 /* InfoScrollController.swift */; };
-		177F881927C4862A00C5ADC2 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177F881827C4862A00C5ADC2 /* TestViewController.swift */; };
 		17AB194C2790BE8300E9CE1D /* InfoIntroView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AB194B2790BE8300E9CE1D /* InfoIntroView.swift */; };
 		E73DD13124636FEF00D77039 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73DD13024636FEF00D77039 /* AppDelegate.swift */; };
 		E73DD13324636FEF00D77039 /* Shaders.metal in Sources */ = {isa = PBXBuildFile; fileRef = E73DD13224636FEF00D77039 /* Shaders.metal */; };
@@ -43,7 +42,6 @@
 		17301DA22796205F00AF952F /* InfoLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoLogoView.swift; sourceTree = "<group>"; };
 		1737C4FE27B4563000DD0381 /* SaveControllerDiff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveControllerDiff.swift; sourceTree = "<group>"; };
 		1753F053278F8BB500843801 /* InfoScrollController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoScrollController.swift; sourceTree = "<group>"; };
-		177F881827C4862A00C5ADC2 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		17AB194B2790BE8300E9CE1D /* InfoIntroView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoIntroView.swift; sourceTree = "<group>"; };
 		948146554F46E56B015690CC /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		B57D60B9736905755DECF7CE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -121,7 +119,6 @@
 				1717E70E279547CC004D780D /* InfoInstructionView.swift */,
 				1717E70C2795478B004D780D /* InfoWebView.swift */,
 				0FA9256326BB5F6000012C25 /* SaveController.swift */,
-				177F881827C4862A00C5ADC2 /* TestViewController.swift */,
 				1737C4FE27B4563000DD0381 /* SaveControllerDiff.swift */,
 				0FFF3FED26C0A94400BBD761 /* ExportController.swift */,
 				E73DD13224636FEF00D77039 /* Shaders.metal */,
@@ -222,7 +219,6 @@
 				E73DD13324636FEF00D77039 /* Shaders.metal in Sources */,
 				1737C4FF27B4563000DD0381 /* SaveControllerDiff.swift in Sources */,
 				17301DA32796205F00AF952F /* InfoLogoView.swift in Sources */,
-				177F881927C4862A00C5ADC2 /* TestViewController.swift in Sources */,
 				E7B7223D24809D1E002E43E8 /* Helpers.swift in Sources */,
 				1717E70F279547CC004D780D /* InfoInstructionView.swift in Sources */,
 				E7B7223B24807ACA002E43E8 /* MetalBuffer.swift in Sources */,
