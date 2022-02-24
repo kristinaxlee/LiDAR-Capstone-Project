@@ -18,7 +18,6 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     private var roomList = [String]()
     private var selectedBuilding = "Select building..."
     private var selectedRoom = "Select room..."
-    private let formatPicker = UIPickerView()
     private let buildingPicker = UIPickerView()
     private let roomPicker = UIPickerView()
     private let spinner = UIActivityIndicatorView(style: .large)
@@ -39,18 +38,6 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         let imageView = UIImageView(image: image!)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
-    }()
-    
-    private let imageSubHeader: UITextView = {
-        let textView = UITextView()
-        let attributeText = NSMutableAttributedString(string: ".PLY - Ascii Format", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)])
-        textView.attributedText = attributeText
-        textView.textColor = .damBlue
-        textView.textAlignment = .center
-        textView.isEditable = false
-        textView.isScrollEnabled = false
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        return textView
     }()
     
     private var fileName: UITextView = {
@@ -128,7 +115,6 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         
         view.addSubview(imageView)
         view.addSubview(fileName)
-        view.addSubview(imageSubHeader)
         
         view.addSubview(toolBar)
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneClick(sender:)))
@@ -186,25 +172,22 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             dismissViewButton.widthAnchor.constraint(equalToConstant: 50),
             dismissViewButton.heightAnchor.constraint(equalToConstant: 50),
             
-            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 75),
+            imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 125),
             imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             imageView.widthAnchor.constraint(equalToConstant: 175),
             imageView.heightAnchor.constraint(equalToConstant: 200),
-
-            imageSubHeader.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -5),
-            imageSubHeader.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             saveCurrentScanLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            saveCurrentScanLabel.bottomAnchor.constraint(equalTo: imageSubHeader.bottomAnchor, constant: 15),
+            saveCurrentScanLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -5),
             
-            fileName.topAnchor.constraint(equalTo: saveCurrentScanLabel.bottomAnchor, constant: 15),
+            fileName.topAnchor.constraint(equalTo: saveCurrentScanLabel.bottomAnchor, constant: 25),
             fileName.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            buildingInputLabel.topAnchor.constraint(equalTo: fileName.bottomAnchor, constant: 35),
+            buildingInputLabel.topAnchor.constraint(equalTo: fileName.bottomAnchor, constant: 10),
             buildingInputLabel.widthAnchor.constraint(equalToConstant: 110),
             buildingInputLabel.heightAnchor.constraint(equalToConstant: 45),
             
-            buildingTextField.topAnchor.constraint(equalTo: fileName.bottomAnchor, constant: 35),
+            buildingTextField.topAnchor.constraint(equalTo: fileName.bottomAnchor, constant: 10),
             buildingTextField.leftAnchor.constraint(equalTo: buildingInputLabel.rightAnchor, constant: 10),
             buildingTextField.widthAnchor.constraint(equalToConstant: 225),
             buildingTextField.heightAnchor.constraint(equalToConstant: 45),
@@ -220,7 +203,7 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
 
             spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            saveCurrentButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
+            saveCurrentButton.bottomAnchor.constraint(equalTo: roomTextField.bottomAnchor, constant: 100),
             saveCurrentButton.widthAnchor.constraint(equalToConstant: 175),
             saveCurrentButton.heightAnchor.constraint(equalToConstant: 50),
             saveCurrentButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
