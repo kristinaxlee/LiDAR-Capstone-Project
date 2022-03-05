@@ -41,7 +41,7 @@ Then to check if our data was inserted properly, we can run the command `SELECT 
 ### Set the environment variables:
 
 Paste this command into your terminal:
-`export MYSQL_PORT=3306 export MYSQL_DATABASE=lidar export MYSQL_USER=capstone export MYSQL_PASSWORD=capstone2022`
+`export MYSQL_PORT=3306 export MYSQL_DB=lidar export MYSQL_USER=capstone export MYSQL_PASSWORD=capstone2022`
 
 ### Run the server
 

@@ -17,5 +17,5 @@ INSERT INTO `scans` VALUES (1, '1645387200', 'Kelley Engineering Center', '1001'
 (6, '1666123435', 'Dearborn Hall', '118', 'Engineering', 'Dearborn-118-1666123435'),
 (7, '1665875035', 'Dearborn Hall', '118', 'Engineering', 'Dearborn-118-1665875035'),
 (8, '1644696235', 'Strand Agricultural Hall', '161', 'Agriculture', 'Strand-161-1644696235'),
-(9, '1647115435', 'Weniger', '149', 'Science', 'Weniger-149-1647115435'),
-(10, '1649455435', 'Weniger', '149', 'Science', 'Weniger-149-1649455435');
+(9, '1647115435', 'Weniger Hall', '149', 'Science', 'Weniger-149-1647115435'),
+(10, '1649455435', 'Weniger Hall', '149', 'Science', 'Weniger-149-1649455435');
