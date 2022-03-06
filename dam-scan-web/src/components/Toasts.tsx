@@ -1,17 +1,14 @@
-
-import React, { useState }  from "react";
-import Toast  from 'react-bootstrap/Toast'
-import ToastContainer from 'react-bootstrap/ToastContainer'
+import React from "react";
+import Toast from "react-bootstrap/Toast";
+import ToastContainer from "react-bootstrap/ToastContainer";
 import styled from "styled-components";
-import CloseButton from 'react-bootstrap/CloseButton'
-import 'bootstrap/dist/css/bootstrap.css';
-import { faCommentAlt, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import logo from "../assets/radar_blue.png";
+import logo from "../assets/radar.png";
+import logoBlue from "../assets/radar_blue.png";
 import leftMouse from "../assets/Mouse_Left_Key_Dark.png";
 import middleMouse from "../assets/Mouse_Middle_Key_Dark.png";
 import rightMouse from "../assets/Mouse_Right_Key_Dark.png";
-import "../index.css"; 
+import "../index.css";
+
 const TipButton = styled.div`
   display: flex;
   text-align: center;
@@ -31,60 +28,65 @@ const TipButton = styled.div`
   }
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
-export const SiteLogoBlue = styled.img`
+
+export const ImgContainer = styled.img`
   height: 20px;
-  padding-left: 20px;
-`;
-export const LeftMouse = styled.img`
-  height: 20px;
-  padding-left: 20px;
-`;
-export const MiddleMouse = styled.img`
-  height: 20px;
-  padding-left: 20px;
-`;
-export const RightMouse = styled.img`
-  height: 20px;
-  padding-left: 20px;
 `;
 
-function TipToasts(){
-    
-    const [showToast, SetShowToast]= useState(true);
-    const toggleShowToast = () => SetShowToast(!showToast);
-    return(
-        <>
-        
-       
+const TipToasts = (props: any) => {
+  const { showTips, setShowTips } = props;
+  const toggleShowTips = () => {
+    setShowTips(false);
+  };
+
+  return (
+    <>
       <ToastContainer position="top-center">
-        
-      <Toast show={showToast} onClose={toggleShowToast}  delay={2000} autohide className="quickTips">
-        <Toast.Header>
-        <SiteLogoBlue src={logo}/>
-          <strong> Quick Tips</strong>
-        </Toast.Header> 
-        <Toast.Body><LeftMouse src={leftMouse}/>To move the object 
-        <br/> <MiddleMouse src={middleMouse}/>Scroll to zoom in and out
-        <br/> <RightMouse src={rightMouse}/>To pan the object
-        
-        </Toast.Body>
-        
-      </Toast>
+        <Toast show={showTips} onClose={toggleShowTips} className="quickTips">
+          <Toast.Header>
+            <ImgContainer className="rounded me-2" src={logoBlue} />
+            <strong className="me-auto"> Quick Tips</strong>
+          </Toast.Header>
+          <Toast.Body>
+            <ImgContainer src={leftMouse} />
+            To rotate the object
+            <br />
+            <ImgContainer src={middleMouse} />
+            Scroll to zoom in and out
+            <br />
+            <ImgContainer src={rightMouse} />
+            To move the object
+          </Toast.Body>
+        </Toast>
       </ToastContainer>
-      </>
-    );
-  
+    </>
+  );
+};
 
+const WarningToast = (props: any) => {
+  const { showWarning, setShowWarning } = props;
+  const toggleShowWarningToast = () => {
+    setShowWarning(false);
+  };
 
-}
+  return (
+    <div>
+      <ToastContainer position="top-center">
+        <Toast
+          show={showWarning}
+          bg={"danger"}
+          onClose={toggleShowWarningToast}
+          className="Warning"
+        >
+          <Toast.Header>
+            <ImgContainer className="rounded me-2" src={logo} />
+            <strong className="me-auto"> Warning</strong>
+          </Toast.Header>
+          <Toast.Body>Please select a room and a date</Toast.Body>
+        </Toast>
+      </ToastContainer>
+    </div>
+  );
+};
 
-
-
-
-
-
-
-export default TipToasts;
-
-
-
+export { TipToasts, WarningToast };

@@ -3,8 +3,9 @@ import Modal from "react-bootstrap/Modal";
 import styled from "styled-components";
 import "../index.css"; // holds the css needed for the modal
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle, faTimes } from "@fortawesome/free-solid-svg-icons";
-import { ModalFooter } from "react-bootstrap";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { CloseButton, ModalFooter } from "react-bootstrap";
+import "../index.css";
 
 const InfoButton = styled.div`
   display: flex;
@@ -29,18 +30,18 @@ const InfoButton = styled.div`
 function InformationModal(props: any) {
   return (
     <Modal {...props} size="lg" className="InformationModal">
-      <FontAwesomeIcon
-        id="closeBtn"
-        onClick={props.onHide}
-        icon={faTimes}
-        color="#white"
-      />
-
-      <br />
       <Modal.Header>
-      <Modal.Title id="contained-modal-title-vcenter">
-        About DamScan
-      </Modal.Title>
+        <Modal.Title
+          id="contained-modal-title-vcenter"
+          style={{ fontWeight: 600 }}
+        >
+          About DamScan
+        </Modal.Title>
+        <CloseButton
+          className={"close-button"}
+          variant="white"
+          onClick={props.onHide}
+        />
       </Modal.Header>
       <br />
       <Modal.Body>

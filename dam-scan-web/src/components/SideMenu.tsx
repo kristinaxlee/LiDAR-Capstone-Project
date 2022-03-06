@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
@@ -33,7 +31,6 @@ import {
   SiteTitle,
 } from "./ui/SideMenuUI";
 
-
 const options = [
   {
     id: 1,
@@ -49,14 +46,23 @@ const options = [
   },
 ];
 
-
-
 function SideMenu(props: any) {
-  const { filters, setRoom, setDate, setDepartment, setToDate, setFromDate, setTitles, setError, setFirstLoad} =
-    props;
+  const {
+    filters,
+    setRoom,
+    setDate,
+    setDepartment,
+    setToDate,
+    setFromDate,
+    setTitles,
+    setShowWarning,
+    setFirstLoad,
+    firstLoad,
+    setShowTips,
+  } = props;
 
   const [menuActive, setMenuActive] = useState(true);
-  
+
   return (
     <div>
       <SideMenuContainer
@@ -167,20 +173,22 @@ function SideMenu(props: any) {
             <DisplayButton
               id="display-button"
               onClick={() => {
+                // if user correctly picks a room and date, then display the scan and update the titles
                 if (filters.room !== "" && filters.date !== "") {
                   renderDisplay();
-                  setError(false)
+                  setShowWarning(false);
                   setTitles({
                     curDate: filters.date,
                     curRoom: filters.room,
-                    displayClicked: true, 
-
-                  })
-                  setFirstLoad(true)
+                    displayClicked: true,
+                  });
+                  // if this is user's first load, then show tips then set first load to false
+                  if (firstLoad) {
+                    setShowTips(true);
+                    setFirstLoad(false);
+                  }
                 } else {
-                  setFirstLoad(false)
-                  setError(true)
-                  
+                  setShowWarning(true);
                 }
               }}
             >

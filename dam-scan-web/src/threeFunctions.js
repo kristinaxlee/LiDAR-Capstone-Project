@@ -3,7 +3,6 @@ import { PLYLoader } from "three/examples/jsm/loaders/PLYLoader";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import CameraControls from "camera-controls";
 
-
 let camera,
   scene,
   renderer,
@@ -30,8 +29,7 @@ export function init() {
   camera.aspect = (window.innerWidth - 450) / window.innerHeight;
   controls = new OrbitControls(camera, renderer.domElement);
   cameraControls = new CameraControls(camera, renderer.domElement);
-  material = new THREE.MeshPhysicalMaterial({
-    color: 0xb2ffc8,
+  /*material = new THREE.MeshPhysicalMaterial({
     envMap: null,
     metalness: 0,
     roughness: 0,
@@ -40,7 +38,7 @@ export function init() {
     side: THREE.DoubleSide,
     clearcoat: 1.0,
     clearcoatRoughness: 0.25,
-  });
+  });*/
 
   // grab buttons from UI
   const zoomInButton = document.getElementById("zoom-in");
@@ -51,7 +49,7 @@ export function init() {
 
   // attach side menu resize handlers to menu close and display buttons
   expandMenuButton.addEventListener("click", onMenuResize);
-  displayButton.addEventListener("click", onMenuResize);
+  displayButton.addEventListener("click", onWindowResize);
 
   // attach zoom events handlers to buttons
   zoomInButton.addEventListener("click", zoomIn);
@@ -160,12 +158,25 @@ export function renderDisplay() {
 
   controls.enableDamping = true;
 
+  // dolphin: "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/models/ply/ascii/dolphins.ply"
+
   loader.load(
-    "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/models/ply/ascii/dolphins.ply",
+    "http://localhost:8888/",
     function (geometry) {
-      geometry.computeVertexNormals();
+      /*geometry.computeVertexNormals();
       const mesh = new THREE.Mesh(geometry, material);
-      mesh.rotateX(-Math.PI / 2);
+      //mesh.rotateX(-Math.PI / 2);
+      scene.add(mesh);*/
+
+      material = new THREE.PointsMaterial({ size: 0.01 });
+      material.vertexColors = true;
+      const mesh = new THREE.Points(geometry, material);
+      mesh.position.x = 0;
+      mesh.position.y = 0;
+      mesh.position.z = 0;
+      mesh.scale.multiplyScalar(0.2);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
       scene.add(mesh);
     },
     (xhr) => {
