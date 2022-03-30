@@ -2,8 +2,27 @@ const router = require("express").Router();
 const { validateAgainstSchema } = require("../lib/validation");
 const { scanSchema, getScans, insertScan } = require("./models/scans");
 const fs = require("fs");
+const multer = require("multer");
 
 exports.router = router;
+
+const acceptedFileTypes = {
+  "application/octet-stream": "ply",
+};
+
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: `${__dirname}/uploads`,
+    filename: (req, file, callback) => {
+      const filename = file.originalname.split(".")[0];
+      const extension = acceptedFileTypes[file.mimetype];
+      callback(null, `${filename}.${extension}`);
+    },
+  }),
+  fileFilter: (req, file, callback) => {
+    callback(null, !!acceptedFileTypes[file.mimetype]);
+  },
+});
 
 /**
  * Route to get a list of scans
@@ -24,7 +43,7 @@ router.get("/", async function (req, res) {
  * Route to get send PLY file contents
  */
 router.get("/:file", (req, res) => {
-  const filepath = "./data/" + req.params.file + ".ply";
+  const filepath = "./api/uploads/" + req.params.file + ".ply";
   try {
     const contents = fs.readFileSync(filepath);
     res.send(contents.toString());
@@ -37,13 +56,21 @@ router.get("/:file", (req, res) => {
 });
 
 /**
- * Route to insert a new scan into the DB
- * (TO DO: ADD FILE STORAGE AND MULTER)
+ * Route to insert a new scan into the DB. File is stored locally.
  */
-router.post("/", async function (req, res) {
+router.post("/", upload.single("file"), async (req, res, next) => {
+  console.log("== req.body:", req.body);
+  console.log("== req.file:", req.file);
   if (validateAgainstSchema(req.body, scanSchema)) {
+    const scan = {
+      date: req.body.date,
+      building: req.body.building,
+      room: req.body.room,
+      filename: req.file.filename,
+    };
+
     try {
-      const id = await insertScan(req.body);
+      const id = await insertScan(scan);
       res.status(201).send({
         id: id,
       });
