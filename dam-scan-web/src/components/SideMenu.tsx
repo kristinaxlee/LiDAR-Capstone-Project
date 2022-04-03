@@ -65,9 +65,20 @@ function SideMenu(props: any) {
     });
   }, []);
 
+  // TO DO: API call to grab buildings
   useEffect(() => {
-    console.log("selected scan: ", filters.selectedScan);
-  }, [filters.selectedScan]);
+    console.log("Calling department API!");
+
+    // If category is chosen, add category as a query param
+  }, [filters.department]);
+
+  // TO DO: API call to grab rooms
+  useEffect(() => {
+    // make sure that a building has been selected before we make the API call to grab rooms
+    if (filters.building !== "") {
+      // In the API call, include building as a query param
+    }
+  }, [filters.building]);
 
   return (
     <div>
