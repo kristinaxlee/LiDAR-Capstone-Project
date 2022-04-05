@@ -161,7 +161,7 @@ export function renderDisplay() {
   // dolphin: "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/models/ply/ascii/dolphins.ply"
 
   loader.load(
-    "http://localhost:8888/",
+    "http://localhost:8888/scans/apple",
     function (geometry) {
       /*geometry.computeVertexNormals();
       const mesh = new THREE.Mesh(geometry, material);
