@@ -23,8 +23,11 @@ function App() {
     fromDate: "",
     toDate: "",
     room: "",
+    building: "",
     date: "",
   });
+
+  const [selectedScan, setSelectedScan] = useState({});
 
   const setRoom = (e: any) => {
     setFilters({
@@ -37,6 +40,13 @@ function App() {
     setFilters({
       ...filters,
       date: e.target.value,
+    });
+  };
+
+  const setBuilding = (e: any) => {
+    setFilters({
+      ...filters,
+      building: e.target.value,
     });
   };
 
@@ -76,6 +86,7 @@ function App() {
         setRoom={setRoom}
         setDate={setDate}
         setDepartment={setDepartment}
+        setBuilding={setBuilding}
         setToDate={setToDate}
         setFromDate={setFromDate}
         filters={filters}
@@ -84,6 +95,8 @@ function App() {
         firstLoad={firstLoad}
         setFirstLoad={setFirstLoad}
         setShowTips={setShowTips}
+        setSelectedScan={setSelectedScan}
+        selectedScan={selectedScan}
       />
       <MapContainer id="container">
         <MapTitle>

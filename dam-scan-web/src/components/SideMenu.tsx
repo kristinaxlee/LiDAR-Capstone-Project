@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronLeft,
@@ -9,9 +10,10 @@ import { renderDisplay } from "../threeFunctions";
 import logo from "../assets/radar.png";
 import room from "../assets/room.png";
 import date from "../assets/calendar-day.png";
-import department from "../assets/department.png";
+import building from "../assets/department.png";
+import department from "../assets/college.png";
 import calendar from "../assets/calendar.png";
-import Dropdown from "./Dropdown";
+import { DateDropdown, Dropdown } from "./Dropdown";
 import {
   DateInput,
   DateLabelContainer,
@@ -31,27 +33,15 @@ import {
   SiteTitle,
 } from "./ui/SideMenuUI";
 
-const options = [
-  {
-    id: 1,
-    name: "1",
-  },
-  {
-    id: 2,
-    name: "2",
-  },
-  {
-    id: 3,
-    name: "3",
-  },
-];
+const departments = ["Engineering", "Science", "Agriculture", "Academic"];
 
 function SideMenu(props: any) {
   const {
     filters,
     setRoom,
-    setDate,
+    setSelectedScan,
     setDepartment,
+    setBuilding,
     setToDate,
     setFromDate,
     setTitles,
@@ -59,9 +49,50 @@ function SideMenu(props: any) {
     setFirstLoad,
     firstLoad,
     setShowTips,
+    selectedScan,
   } = props;
 
   const [menuActive, setMenuActive] = useState(true);
+  const [results, setResults] = useState([]); // all scan objects
+  const [buildingResults, setBuildingResults] = useState([]); // all buildings
+  const [roomResults, setRoomResults] = useState([]); // all rooms for a certain building
+
+  useEffect(() => {
+    axios.get(`http://localhost:8888/scans`).then((res) => {
+      const data = res.data;
+      console.log(" --- scans from db: ", data);
+      setResults(res.data);
+    });
+  }, []);
+
+  // API call to grab buildings
+  useEffect(() => {
+    //only fetch buildings for a category when selected
+    if(filters.department !== ""){
+      axios.get(`http://localhost:8888/scans/buildings`, { params: { category: filters.department } } ).then((res) => {
+        const data = res.data;
+        setBuildingResults(data) 
+      }); 
+      }
+    else{
+      //get all buildings
+      axios.get(`http://localhost:8888/scans/buildings`).then((res) => {
+        const data = res.data;
+        setBuildingResults(data)
+      }); 
+    }
+  }, [filters.department]);
+
+  // API call to grab rooms for a chosen building
+  useEffect(() => {
+    // make sure that a building has been selected before we make the API call to grab rooms
+    if (filters.building !== "") {
+      axios.get(`http://localhost:8888/scans/rooms` , { params: { building: filters.building } }).then((res) => {
+      const data = res.data;
+      setRoomResults(data)
+    });  
+    }
+  }, [filters.building]);
 
   return (
     <div>
@@ -111,14 +142,15 @@ function SideMenu(props: any) {
             <FilterContainer>
               <FilterLabel>
                 <Icon src={department} />
-                <FilterName>Category</FilterName>
+                <FilterName>Department</FilterName>
               </FilterLabel>
 
               <Dropdown
-                options={options}
+                options={departments}
                 value={filters.department}
                 change={setDepartment}
               />
+              
             </FilterContainer>
 
             <FilterContainer>
@@ -148,12 +180,24 @@ function SideMenu(props: any) {
             <SideMenuTitle>Select a location</SideMenuTitle>
             <FilterContainer>
               <FilterLabel>
+                <Icon src={building} />
+                <FilterName>Building</FilterName>
+              </FilterLabel>
+
+              <Dropdown
+                options={buildingResults}
+                value={filters.building}
+                change={setBuilding}
+              />
+            </FilterContainer>
+            <FilterContainer>
+              <FilterLabel>
                 <Icon src={room} />
                 <FilterName>Room</FilterName>
               </FilterLabel>
 
               <Dropdown
-                options={options}
+                options={roomResults}//rom results
                 value={filters.room}
                 change={setRoom}
               />
@@ -164,22 +208,29 @@ function SideMenu(props: any) {
                 <FilterName>Date</FilterName>
               </FilterLabel>
 
-              <Dropdown
-                options={options}
-                value={filters.date}
-                change={setDate}
+              <DateDropdown
+                options={results}
+                value={selectedScan}
+                change={(e: any) => {
+                  setSelectedScan(JSON.parse(e.target.value));
+                }}
               />
             </FilterContainer>
             <DisplayButton
               id="display-button"
               onClick={() => {
                 // if user correctly picks a room and date, then display the scan and update the titles
-                if (filters.room !== "" && filters.date !== "") {
+                if (
+                  filters.building !== "" &&
+                  filters.room !== "" &&
+                  selectedScan !== {}
+                ) {
                   renderDisplay();
                   setShowWarning(false);
+
                   setTitles({
-                    curDate: filters.date,
-                    curRoom: filters.room,
+                    curDate: selectedScan.date,
+                    curRoom: selectedScan.building + " " + selectedScan.room,
                     displayClicked: true,
                   });
                   // if this is user's first load, then show tips then set first load to false

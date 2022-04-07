@@ -82,7 +82,7 @@ const WarningToast = (props: any) => {
             <ImgContainer className="rounded me-2" src={logo} />
             <strong className="me-auto"> Warning</strong>
           </Toast.Header>
-          <Toast.Body>Please select a room and a date</Toast.Body>
+          <Toast.Body>Please select a building, room, and date</Toast.Body>
         </Toast>
       </ToastContainer>
     </div>
