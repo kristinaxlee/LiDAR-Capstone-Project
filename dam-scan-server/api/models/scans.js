@@ -35,78 +35,21 @@ const categoryDictionary = {
  * @returns list of scans
  */
 async function getScans(params) {
-  var query = "SELECT * FROM scans";
-  var queryParams = [];
-  var firstParam = true;
+  var query = "SELECT * FROM scans WHERE building = ? AND room = ? ";
+  var queryParams = [params.building, params.room];
 
   // Append query params into SQL query if a parameter was provided
-  // NOTE: there is probably a more efficient way to do this... writing it in a messy way for the time being
-  if (params.toDate != undefined) {
-    if (firstParam) {
-      firstParam = false;
-      query = query.concat(" WHERE ");
-    }
-    query = query.concat("date <= ? ");
+  if (params.toDate !== "") {
+    query = query.concat(" AND date <= ? ");
     queryParams.push(params.toDate);
   }
 
-  if (params.fromDate != undefined) {
-    if (firstParam) {
-      firstParam = false;
-      query = query.concat(" WHERE ");
-    } else {
-      query = query.concat(" AND ");
-    }
-    query = query.concat("date >= ? ");
+  if (params.fromDate !== "") {
+    query = query.concat(" AND date >= ? ");
     queryParams.push(params.fromDate);
   }
 
-  if (params.category != undefined) {
-    if (firstParam) {
-      firstParam = false;
-      query = query.concat(" WHERE ");
-    } else {
-      query = query.concat(" AND ");
-    }
-    query = query.concat("category = ? ");
-    queryParams.push(params.category);
-  }
-
-  if (params.building != undefined) {
-    if (firstParam) {
-      firstParam = false;
-      query = query.concat(" WHERE ");
-    } else {
-      query = query.concat(" AND ");
-    }
-    query = query.concat("building = ? ");
-    queryParams.push(params.building);
-  }
-
-  if (params.room != undefined) {
-    if (firstParam) {
-      firstParam = false;
-      query = query.concat(" WHERE ");
-    } else {
-      query = query.concat(" AND ");
-    }
-    query = query.concat("room = ? ");
-    queryParams.push(params.room);
-  }
-
-  if (params.date != undefined) {
-    if (firstParam) {
-      firstParam = false;
-      query = query.concat(" WHERE ");
-    } else {
-      query = query.concat(" AND ");
-    }
-    query = query.concat("date = ? ");
-    queryParams.push(params.date);
-  }
-
   const [results] = await mysqlPool.query(query, queryParams);
-
   return results;
 }
 exports.getScans = getScans;
@@ -119,7 +62,7 @@ async function getBuildings(category) {
   var query = "SELECT DISTINCT building FROM scans";
   var queryParams = [];
 
-  if (category != undefined) {
+  if (category !== "") {
     query = query.concat(" WHERE category = ? ");
     queryParams.push(category);
   }

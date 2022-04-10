@@ -35,6 +35,29 @@ import {
 
 const departments = ["Engineering", "Science", "Agriculture", "Academic"];
 
+function timeConverter(UNIX_timestamp: number) {
+  var a = new Date(UNIX_timestamp * 1000);
+  var months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var time = month + " " + date + " " + year;
+  return time;
+}
+
 function SideMenu(props: any) {
   const {
     filters,
@@ -57,42 +80,59 @@ function SideMenu(props: any) {
   const [buildingResults, setBuildingResults] = useState([]); // all buildings
   const [roomResults, setRoomResults] = useState([]); // all rooms for a certain building
 
-  useEffect(() => {
-    axios.get(`http://localhost:8888/scans`).then((res) => {
-      const data = res.data;
-      console.log(" --- scans from db: ", data);
-      setResults(res.data);
-    });
-  }, []);
-
   // API call to grab buildings
   useEffect(() => {
-    //only fetch buildings for a category when selected
-    if(filters.department !== ""){
-      axios.get(`http://localhost:8888/scans/buildings`, { params: { category: filters.department } } ).then((res) => {
+    // include query param for category when selected
+    axios
+      .get(`http://localhost:8888/scans/buildings`, {
+        params: { category: filters.department },
+      })
+      .then((res) => {
         const data = res.data;
-        setBuildingResults(data) 
-      }); 
-      }
-    else{
-      //get all buildings
-      axios.get(`http://localhost:8888/scans/buildings`).then((res) => {
-        const data = res.data;
-        setBuildingResults(data)
-      }); 
-    }
+        setBuildingResults(data);
+      });
   }, [filters.department]);
 
-  // API call to grab rooms for a chosen building
+  // API call to grab rooms for a chosen building (building must be chosen first)
   useEffect(() => {
     // make sure that a building has been selected before we make the API call to grab rooms
     if (filters.building !== "") {
-      axios.get(`http://localhost:8888/scans/rooms` , { params: { building: filters.building } }).then((res) => {
-      const data = res.data;
-      setRoomResults(data)
-    });  
+      axios
+        .get(`http://localhost:8888/scans/rooms`, {
+          params: { building: filters.building },
+        })
+        .then((res) => {
+          const data = res.data;
+          setRoomResults(data);
+        });
     }
-  }, [filters.building]);
+  }, [filters.building, filters.department]);
+
+  // API call to grab available dates (building and room must be chosen first)
+  useEffect(() => {
+    if (filters.building !== "" && filters.room !== "") {
+      axios
+        .get(`http://localhost:8888/scans`, {
+          params: {
+            building: filters.building,
+            room: filters.room,
+            fromDate: filters.fromDate,
+            toDate: filters.toDate,
+          },
+        })
+        .then((res) => {
+          const data = res.data;
+          console.log(" --- scan results: ", data);
+          setResults(res.data);
+        });
+    }
+  }, [
+    filters.building,
+    filters.room,
+    filters.fromDate,
+    filters.toDate,
+    filters.department,
+  ]);
 
   return (
     <div>
@@ -150,7 +190,6 @@ function SideMenu(props: any) {
                 value={filters.department}
                 change={setDepartment}
               />
-              
             </FilterContainer>
 
             <FilterContainer>
@@ -197,7 +236,7 @@ function SideMenu(props: any) {
               </FilterLabel>
 
               <Dropdown
-                options={roomResults}//rom results
+                options={roomResults}
                 value={filters.room}
                 change={setRoom}
               />
@@ -229,7 +268,7 @@ function SideMenu(props: any) {
                   setShowWarning(false);
 
                   setTitles({
-                    curDate: selectedScan.date,
+                    curDate: timeConverter(selectedScan.date),
                     curRoom: selectedScan.building + " " + selectedScan.room,
                     displayClicked: true,
                   });
