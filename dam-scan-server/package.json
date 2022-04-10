@@ -4,6 +4,7 @@
   "description": "Server for DamScan LiDAR Capstone Project",
   "main": "server.js",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "multer": "^1.4.4",
     "mysql2": "^2.3.3"

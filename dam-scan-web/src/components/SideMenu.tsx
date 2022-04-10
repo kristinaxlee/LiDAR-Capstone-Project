@@ -65,18 +65,32 @@ function SideMenu(props: any) {
     });
   }, []);
 
-  // TO DO: API call to grab buildings
+  // API call to grab buildings
   useEffect(() => {
-    console.log("Calling department API!");
-
-    // If category is chosen, add category as a query param
+    //only fetch buildings for a category when selected
+    if(filters.department !== ""){
+      axios.get(`http://localhost:8888/scans/buildings`, { params: { category: filters.department } } ).then((res) => {
+        const data = res.data;
+        setBuildingResults(data) 
+      }); 
+      }
+    else{
+      //get all buildings
+      axios.get(`http://localhost:8888/scans/buildings`).then((res) => {
+        const data = res.data;
+        setBuildingResults(data)
+      }); 
+    }
   }, [filters.department]);
 
-  // TO DO: API call to grab rooms
+  // API call to grab rooms for a chosen building
   useEffect(() => {
     // make sure that a building has been selected before we make the API call to grab rooms
     if (filters.building !== "") {
-      // In the API call, include building as a query param
+      axios.get(`http://localhost:8888/scans/rooms` , { params: { building: filters.building } }).then((res) => {
+      const data = res.data;
+      setRoomResults(data)
+    });  
     }
   }, [filters.building]);
 
@@ -136,6 +150,7 @@ function SideMenu(props: any) {
                 value={filters.department}
                 change={setDepartment}
               />
+              
             </FilterContainer>
 
             <FilterContainer>
@@ -170,7 +185,7 @@ function SideMenu(props: any) {
               </FilterLabel>
 
               <Dropdown
-                options={departments}
+                options={buildingResults}
                 value={filters.building}
                 change={setBuilding}
               />
@@ -182,7 +197,7 @@ function SideMenu(props: any) {
               </FilterLabel>
 
               <Dropdown
-                options={departments}
+                options={roomResults}//rom results
                 value={filters.room}
                 change={setRoom}
               />
