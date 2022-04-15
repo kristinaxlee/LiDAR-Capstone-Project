@@ -264,7 +264,7 @@ function SideMenu(props: any) {
                   filters.room !== "" &&
                   selectedScan !== {}
                 ) {
-                  renderDisplay();
+                  renderDisplay(selectedScan.filename);
                   setShowWarning(false);
 
                   setTitles({

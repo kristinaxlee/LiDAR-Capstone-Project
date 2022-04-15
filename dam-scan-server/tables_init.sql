@@ -9,13 +9,12 @@ CREATE TABLE `scans` (
   UNIQUE KEY (`filename`)
 );
 
-INSERT INTO `scans` VALUES (1, '1645387200', 'Kelley Engineering Center', '1001', 'Engineering', 'Kelley-1001-1645387200'),
-(2, '1648123915', 'Kelley Engineering Center', '1001', 'Engineering', 'Kelley-1001-1648123915'),
-(3, '1645668715', 'Kelley Engineering Center', '904', 'Engineering', 'Kelley-904-1645668715'),
-(4, '1624575835', 'Johnson Hall', '114', 'Engineering', 'Johnson-114-1624575835'),
-(5, '1639879435', 'Learning Innovation Center', '100', 'Academic', 'Learning-100-1639879435'),
-(6, '1666123435', 'Dearborn Hall', '118', 'Engineering', 'Dearborn-118-1666123435'),
-(7, '1665875035', 'Dearborn Hall', '118', 'Engineering', 'Dearborn-118-1665875035'),
-(8, '1644696235', 'Strand Agricultural Hall', '161', 'Agriculture', 'Strand-161-1644696235'),
-(9, '1647115435', 'Weniger Hall', '149', 'Science', 'Weniger-149-1647115435'),
-(10, '1649455435', 'Weniger Hall', '149', 'Science', 'Weniger-149-1649455435');
+INSERT INTO `scans` VALUES 
+(1, '1609904203', 'Kelley Engineering Center', '1001', 'Engineering', 'Kelley_1001_1609904203'),
+(2, '1641267403', 'Kelley Engineering Center', '1001', 'Engineering', 'Kelley_1001_1641267403'),
+(3, '1646969803', 'Kelley Engineering Center', '1002', 'Engineering', 'Kelley_1002_1646969803'),
+(4, '1650076603', 'Kelley Engineering Center', '1002', 'Engineering', 'Kelley_1002_1650076603'),
+(5, '1635647803', 'Kelley Engineering Center', '1003', 'Engineering', 'Kelley_1003_1635647803'),
+(6, '1635647803', 'Kelley Engineering Center', '1003', 'Engineering', 'Kelley_1003_1647398203'),
+(7, '1649212603', 'Johnson Hall', '101', 'Engineering', 'Johnson_101_1649212603'),
+(8, '1651459003', 'Johnson Hall', '102', 'Engineering', 'Johnson_102_1651459003');

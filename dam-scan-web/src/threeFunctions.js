@@ -139,7 +139,8 @@ function render() {
 /**
  * Render a new scan from a url when user presses "Display" button
  */
-export function renderDisplay() {
+export function renderDisplay(filename) {
+  console.log(" -- filename sent to renderDisplay: ", filename);
   scene.background = new THREE.Color("#ffffff");
   scene.add(new THREE.AxesHelper(5));
 
@@ -158,16 +159,11 @@ export function renderDisplay() {
 
   controls.enableDamping = true;
 
-  // dolphin: "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/models/ply/ascii/dolphins.ply"
+  var endpoint = "http://localhost:8888/scans/" + filename;
 
   loader.load(
-    "http://localhost:8888/scans/apple",
+    endpoint,
     function (geometry) {
-      /*geometry.computeVertexNormals();
-      const mesh = new THREE.Mesh(geometry, material);
-      //mesh.rotateX(-Math.PI / 2);
-      scene.add(mesh);*/
-
       material = new THREE.PointsMaterial({ size: 0.01 });
       material.vertexColors = true;
       const mesh = new THREE.Points(geometry, material);
