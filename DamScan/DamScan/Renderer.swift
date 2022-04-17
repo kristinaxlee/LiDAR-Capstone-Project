@@ -303,7 +303,8 @@ extension Renderer {
             return errorCallback(XError.invalidInput)
         }
         
-        DispatchQueue.global().async {
+        // Below line puts process in background queue
+        //DispatchQueue.global().async {
             self.isSavingFile = true
             DispatchQueue.main.async {
                 for task in beforeGlobalThread { task() }
@@ -316,12 +317,12 @@ extension Renderer {
                     format: format)) } catch {
                 self.savingError = XError.savingFailed
             }
-    
+
             DispatchQueue.main.async {
                 for task in afterGlobalThread { task() }
             }
             self.isSavingFile = false
-        }
+        //}
     }
     
     func clearParticles() {

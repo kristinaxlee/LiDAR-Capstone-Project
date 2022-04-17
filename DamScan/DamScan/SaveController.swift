@@ -7,13 +7,15 @@ import Foundation
 
 class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     var mainController: MainController!
-    private var buildingData: [String] = ["Select building...", "Kelley Engineering Center", "Johnson Hall", "Other Place", "Other Place2"]
+    private var buildingData: [String] = [
+        "Select building...",
+        "Kelley Engineering Center",
+        "Johnson Hall"
+    ]
     private var locationDict = [
         "Select building...": ["Select building..."],
-        "Kelley Engineering Center": ["Select room...", "Room 1", "Room 2", "Room 3", "Room 4", "Room 5", "Room 6"],
-        "Johnson Hall": ["Select room...", "Room 4", "Room 5", "Room 6", "Room 4", "Room 5", "Room 6"],
-        "Other Place": ["Select room...", "Room 1", "Room 5", "Room 6", "Room 4", "Room 5", "Room 6"],
-        "Other Place2": ["Select room...", "Room 4", "Room 5", "Room 6", "Room 4", "Room 5", "Room 6"]
+        "Kelley Engineering Center": ["Select room...", "1001", "1002", "1003"],
+        "Johnson Hall": ["Select room...", "101", "102"]
     ]
     private var roomList = [String]()
     private var selectedBuilding = "Select building..."
@@ -23,7 +25,6 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     private let spinner = UIActivityIndicatorView(style: .large)
     private let saveCurrentButton = UIButton(type: .system)
     private let saveCurrentScanLabel = UILabel()
-    private var exportData = [URL]()
     
     private let dismissViewButton: UIButton = {
         let button = UIButton(type: .system)
@@ -103,6 +104,7 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         toolBar.tintColor = UIColor(red: 92/255, green: 216/255, blue: 255/255, alpha: 1)
         toolBar.sizeToFit()
         toolBar.isUserInteractionEnabled = true
+        toolBar.translatesAutoresizingMaskIntoConstraints =  false
         return toolBar
     } ()
     
@@ -139,12 +141,10 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         buildingPicker.delegate = self
         buildingPicker.dataSource = self
         buildingPicker.translatesAutoresizingMaskIntoConstraints =  false
-//        buildingPicker.delegate?.pickerView?(buildingPicker, didSelectRow: 0, inComponent: 0)
         
         roomPicker.delegate = self
         roomPicker.dataSource = self
         roomPicker.translatesAutoresizingMaskIntoConstraints =  false
-//        roomPicker.delegate?.pickerView?(roomPicker, didSelectRow: 0, inComponent: 0)
         
         saveCurrentScanLabel.text = "Current Scan: \(mainController.renderer.highConfCount) points"
         saveCurrentScanLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -288,15 +288,14 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         buildingTextField.resignFirstResponder()
     }
     
-//    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-//        return true
-//    }
-//
-//    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-//        return true
-//    }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
    
-    /// Save methods
     func onSaveError(error: XError) {
         dismissModal()
         mainController.onSaveError(error: error)
@@ -308,10 +307,26 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         saveCurrentButton.isEnabled = false
         isModalInPresentation = true
     }
+    
+    private func deleteFile(filePath: URL) {
+        do {
+            let fileManager = FileManager.default
+            // Check if file exists
+            if fileManager.fileExists(atPath: filePath.path) {
+                // Delete file
+                try fileManager.removeItem(atPath: filePath.path)
+            } else {
+                print("File does not exist")
+            }
+        }
+        catch let error as NSError {
+            print("An error took place while attempting to delete a file: \(error)")
+        }
+    }
         
     @objc func executeSave() -> Void {
-        let unixTime = Int(NSDate().timeIntervalSince1970)
-        var fileName = fileName.text + "-" + String(unixTime)
+        let unixTime = String(Int(NSDate().timeIntervalSince1970))
+        var fileName = fileName.text + "-" + unixTime
         let format = "ascii"
         
         if selectedBuilding == "Select building..." || selectedRoom == "Select room..." {
@@ -324,6 +339,40 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             afterGlobalThread: [dismissModal, spinner.stopAnimating, mainController.afterSave],
             errorCallback: onSaveError,
             format: format)
+        
+        let filePath = FileManager.default.urls(
+            for: .documentDirectory,
+            in: .userDomainMask)[0].appendingPathComponent("\(fileName).ply",
+            isDirectory: false)
+        let fileData = try? Data(contentsOf: filePath)
+        
+        let targetURL = "http://128.193.154.224:8888/"
+
+        let request = MultipartFormDataRequest(url: URL(string: targetURL)!)
+        request.addDataField(named: "file", data: fileData!, mimeType: "application/octet-stream")
+        request.addTextField(named: "date", value: unixTime)
+        request.addTextField(named: "building", value: selectedBuilding)
+        request.addTextField(named: "room", value: selectedRoom)
+        request.addTextField(named: "filename", value: fileName)
+        
+        URLSession.shared.dataTask(with: request.asURLRequest(), completionHandler: { data, response, error in
+            guard let data = data,
+                let response = response as? HTTPURLResponse,
+                error == nil else {                                              // check for fundamental networking error
+                print("error", error ?? "Unknown error")
+                return
+            }
+
+            guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
+                print("statusCode should be 2xx, but is \(response.statusCode)")
+                print("response = \(response)")
+                return
+            }
+
+            let responseString = String(data: data, encoding: .utf8)
+            print("responseString = \(responseString!)")
+
+            self.deleteFile(filePath: filePath)
+        }).resume()
     }
-    
 }
