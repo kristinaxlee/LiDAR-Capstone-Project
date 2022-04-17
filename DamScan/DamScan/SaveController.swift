@@ -324,7 +324,7 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         }
     }
         
-    @objc func executeSave() -> Void {
+    @objc func executeUpload() -> Void {
         let unixTime = String(Int(NSDate().timeIntervalSince1970))
         var fileName = fileName.text + "-" + unixTime
         let format = "ascii"
