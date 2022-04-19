@@ -344,12 +344,14 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             for: .documentDirectory,
             in: .userDomainMask)[0].appendingPathComponent("\(fileName).ply",
             isDirectory: false)
-        let fileData = try? Data(contentsOf: filePath)
+        guard let fileData = try? Data(contentsOf: filePath) else {
+            return
+        }
         
         let targetURL = "http://128.193.154.224:8888/"
 
         let request = MultipartFormDataRequest(url: URL(string: targetURL)!)
-        request.addDataField(named: "file", data: fileData!, mimeType: "application/octet-stream")
+        request.addDataField(named: "file", data: fileData, mimeType: "application/octet-stream")
         request.addTextField(named: "date", value: unixTime)
         request.addTextField(named: "building", value: selectedBuilding)
         request.addTextField(named: "room", value: selectedRoom)

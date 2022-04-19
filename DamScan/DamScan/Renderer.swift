@@ -303,26 +303,27 @@ extension Renderer {
             return errorCallback(XError.invalidInput)
         }
         
-        // Below line puts process in background queue
-        //DispatchQueue.global().async {
-            self.isSavingFile = true
-            DispatchQueue.main.async {
-                for task in beforeGlobalThread { task() }
-            }
+        // Below commented lines puts process in background queue which breaks upload process
+//        DispatchQueue.global().async {
+//            self.isSavingFile = true
+//            DispatchQueue.main.async {
+//                for task in beforeGlobalThread { task() }
+//            }
 
             do { self.savedCloudURLs.append(try PLYFile.write(
                     fileName: fileName,
                     cpuParticlesBuffer: &self.cpuParticlesBuffer,
                     highConfCount: self.highConfCount,
-                    format: format)) } catch {
+                    format: format)) }
+            catch {
                 self.savingError = XError.savingFailed
             }
 
-            DispatchQueue.main.async {
-                for task in afterGlobalThread { task() }
-            }
-            self.isSavingFile = false
-        //}
+//            DispatchQueue.main.async {
+//                for task in afterGlobalThread { task() }
+//            }
+//            self.isSavingFile = false
+//        }
     }
     
     func clearParticles() {
