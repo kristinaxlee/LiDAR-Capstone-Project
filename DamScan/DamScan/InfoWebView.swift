@@ -39,7 +39,8 @@ class InfoWebView: UIView {
     
     let urlTextView: UITextView = {
         let textView = UITextView()
-        let attributeText = NSMutableAttributedString(string: "http://DamScan.com", attributes: [
+        let attributeText = NSMutableAttributedString(string: "www.DamScan.com", attributes: [
+            NSAttributedString.Key.link: URL(string: "http://www.DamScan.com")!,
             NSAttributedString.Key.underlineStyle: 1,
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 30)]
         )
