@@ -12,8 +12,7 @@ import Foundation
 class InfoWebView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupImageView()
-        setupTextView()
+        setupViews()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -27,9 +26,9 @@ class InfoWebView: UIView {
         return imageView
     }()
     
-    let textView: UITextView = {
+    let titleTextView: UITextView = {
         let textView = UITextView()
-        let attributeText = NSMutableAttributedString(string: "View scans online", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 24)])
+        let attributeText = NSMutableAttributedString(string: "View scans online:", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 24)])
         textView.attributedText = attributeText
         textView.textAlignment = .center
         textView.isEditable = false
@@ -38,10 +37,15 @@ class InfoWebView: UIView {
         return textView
     }()
     
-    let bodyTextView: UITextView = {
+    let urlTextView: UITextView = {
         let textView = UITextView()
-        let attributeText = NSMutableAttributedString(string: "DamScan is an app that allows users to take LiDAR scans of their environments to contribute to an online library of 3D mapping", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)])
+        let attributeText = NSMutableAttributedString(string: "www.DamScan.com", attributes: [
+            NSAttributedString.Key.link: URL(string: "http://www.DamScan.com")!,
+            NSAttributedString.Key.underlineStyle: 1,
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 30)]
+        )
         textView.attributedText = attributeText
+        textView.textColor = .damBlue
         textView.textAlignment = .center
         textView.isEditable = false
         textView.isScrollEnabled = false
@@ -49,26 +53,23 @@ class InfoWebView: UIView {
         return textView
     }()
     
-    func setupImageView() {
+    func setupViews() {
         self.addSubview(imageView)
+        self.addSubview(titleTextView)
+        self.addSubview(urlTextView)
         NSLayoutConstraint.activate([
             imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 45),
+            imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 135),
             imageView.widthAnchor.constraint(equalToConstant: 175),
-            imageView.heightAnchor.constraint(equalToConstant: 150)
-        ])
-    }
-    
-    func setupTextView() {
-        self.addSubview(textView)
-        self.addSubview(bodyTextView)
-        NSLayoutConstraint.activate([
-            textView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 25),
-            textView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -25),
-            textView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 35),
-            bodyTextView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 25),
-            bodyTextView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -25),
-            bodyTextView.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 5)
+            imageView.heightAnchor.constraint(equalToConstant: 150),
+            
+            titleTextView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 25),
+            titleTextView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -25),
+            titleTextView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 35),
+            
+            urlTextView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 25),
+            urlTextView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -25),
+            urlTextView.topAnchor.constraint(equalTo: titleTextView.bottomAnchor, constant: -5)
         ])
     }
 }

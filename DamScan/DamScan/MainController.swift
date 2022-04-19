@@ -10,7 +10,7 @@ final class MainController: UIViewController, ARSessionDelegate {
     private var rgbButton = UIButton(type: .system)
     private var showSceneButton = UIButton(type: .system)
     private var infoButton = UIButton(type: .system)
-    private var saveButton = UIButton(type: .system)
+    private var uploadButton = UIButton(type: .system)
     private var toggleParticlesButton = UIButton(type: .system)
     private let session = ARSession()
     var renderer: Renderer!
@@ -49,9 +49,9 @@ final class MainController: UIViewController, ARSessionDelegate {
                                    tintColor: .red, hidden: !isUIEnabled)
         view.addSubview(clearButton)
         
-        saveButton = createButton(mainView: self, iconName: "square.and.arrow.up",
+        uploadButton = createButton(mainView: self, iconName: "square.and.arrow.up",
             tintColor: .white, hidden: !isUIEnabled)
-        view.addSubview(saveButton)
+        view.addSubview(uploadButton)
         
         infoButton = createButton(mainView: self, iconName: "info.circle.fill",
             tintColor: .white, hidden: !isUIEnabled)
@@ -75,10 +75,10 @@ final class MainController: UIViewController, ARSessionDelegate {
             clearButton.widthAnchor.constraint(equalToConstant: 50),
             clearButton.heightAnchor.constraint(equalToConstant: 50),
             
-            saveButton.widthAnchor.constraint(equalToConstant: 50),
-            saveButton.heightAnchor.constraint(equalToConstant: 50),
-            saveButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
-            saveButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            uploadButton.widthAnchor.constraint(equalToConstant: 50),
+            uploadButton.heightAnchor.constraint(equalToConstant: 50),
+            uploadButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
+            uploadButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
             
             infoButton.widthAnchor.constraint(equalToConstant: 50),
             infoButton.heightAnchor.constraint(equalToConstant: 50),
@@ -144,7 +144,7 @@ final class MainController: UIViewController, ARSessionDelegate {
             setShowSceneButtonStyle(isScanning: false)
             renderer.clearParticles()
             
-        case saveButton:
+        case uploadButton:
             renderer.isInViewSceneMode = true
             setShowSceneButtonStyle(isScanning: false)
             goToSaveCurrentScanView()

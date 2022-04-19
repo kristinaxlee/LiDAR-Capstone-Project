@@ -35,7 +35,7 @@ final class PLYFile {
         var headersString = ""
         let headers = [
             "ply",
-            "comment Created by SceneX (IOS)",
+            "comment Created by DamScan (IOS)",
             "format \(format) 1.0",
             "element vertex \(highConfCount)",
             "property float x",
@@ -51,13 +51,8 @@ final class PLYFile {
         
         for header in headers { headersString += header + "\r\n" }
         try headersString.write(to: plyFile, atomically: true, encoding: .ascii)
-        
-        if format == "ascii" {
-            try writeAscii(file: plyFile, cpuParticlesBuffer: &cpuParticlesBuffer)
-        } else {
-            try writeBinary(file: plyFile, format: format, cpuParticlesBuffer: &cpuParticlesBuffer)
-        }
-        
+        try writeAscii(file: plyFile, cpuParticlesBuffer: &cpuParticlesBuffer)
+
         return plyFile
     }
     

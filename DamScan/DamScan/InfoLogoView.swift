@@ -12,8 +12,7 @@ import Foundation
 class InfoLogoView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupTextView()
-        setupImageView()
+        setupViews()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -39,21 +38,28 @@ class InfoLogoView: UIView {
         return textView
     }()
     
-    func setupTextView() {
+    let arrowImage: UIImageView = {
+        let image = UIImage(systemName: "arrow.right")
+        let imageView = UIImageView(image: image!)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
+    func setupViews() {
         self.addSubview(textView)
+        self.addSubview(imageView)
+        self.addSubview(arrowImage)
         NSLayoutConstraint.activate([
             textView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            textView.topAnchor.constraint(equalTo: self.topAnchor, constant: 175)
-        ])
-    }
-    
-    func setupImageView() {
-        self.addSubview(imageView)
-        NSLayoutConstraint.activate([
+            textView.topAnchor.constraint(equalTo: self.topAnchor, constant: 150),
             imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             imageView.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 5),
             imageView.widthAnchor.constraint(equalToConstant: 75),
-            imageView.heightAnchor.constraint(equalToConstant: 75)
+            imageView.heightAnchor.constraint(equalToConstant: 75),
+            arrowImage.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 125),
+            arrowImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            arrowImage.widthAnchor.constraint(equalToConstant: 45),
+            arrowImage.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
 }
