@@ -163,7 +163,7 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         saveCurrentButton.setTitle("SUBMIT SCAN", for: .normal)
         saveCurrentButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         saveCurrentButton.translatesAutoresizingMaskIntoConstraints = false
-        saveCurrentButton.addTarget(self, action: #selector(executeSave), for: .touchUpInside)
+        saveCurrentButton.addTarget(self, action: #selector(executeUpload), for: .touchUpInside)
         view.addSubview(saveCurrentButton)
         
         NSLayoutConstraint.activate([
