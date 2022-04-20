@@ -29,8 +29,7 @@ export function init() {
   camera.aspect = (window.innerWidth - 450) / window.innerHeight;
   controls = new OrbitControls(camera, renderer.domElement);
   cameraControls = new CameraControls(camera, renderer.domElement);
-  material = new THREE.MeshPhysicalMaterial({
-    color: 0xb2ffc8,
+  /*material = new THREE.MeshPhysicalMaterial({
     envMap: null,
     metalness: 0,
     roughness: 0,
@@ -39,7 +38,7 @@ export function init() {
     side: THREE.DoubleSide,
     clearcoat: 1.0,
     clearcoatRoughness: 0.25,
-  });
+  });*/
 
   // grab buttons from UI
   const zoomInButton = document.getElementById("zoom-in");
@@ -140,7 +139,8 @@ function render() {
 /**
  * Render a new scan from a url when user presses "Display" button
  */
-export function renderDisplay() {
+export function renderDisplay(filename) {
+  console.log(" -- filename sent to renderDisplay: ", filename);
   scene.background = new THREE.Color("#ffffff");
   scene.add(new THREE.AxesHelper(5));
 
@@ -159,12 +159,20 @@ export function renderDisplay() {
 
   controls.enableDamping = true;
 
+  var endpoint = "http://localhost:8888/scans/" + filename;
+
   loader.load(
-    "https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/models/ply/ascii/dolphins.ply",
+    endpoint,
     function (geometry) {
-      geometry.computeVertexNormals();
-      const mesh = new THREE.Mesh(geometry, material);
-      mesh.rotateX(-Math.PI / 2);
+      material = new THREE.PointsMaterial({ size: 0.01 });
+      material.vertexColors = true;
+      const mesh = new THREE.Points(geometry, material);
+      mesh.position.x = 0;
+      mesh.position.y = 0;
+      mesh.position.z = 0;
+      mesh.scale.multiplyScalar(0.2);
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
       scene.add(mesh);
     },
     (xhr) => {
