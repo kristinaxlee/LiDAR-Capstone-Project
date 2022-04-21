@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { CloseButton, ModalFooter } from "react-bootstrap";
 import "../index.css";
+import qrCode from "../assets/qr-code.png";
 
 const InfoButton = styled.div`
   display: flex;
@@ -44,22 +45,30 @@ function InformationModal(props: any) {
         />
       </Modal.Header>
       <br />
-      <Modal.Body>
+      <Modal.Body style={{ fontSize: 13 }}>
         <p>
-          Bacon ipsum dolor amet cow brisket pork chop hamburger pig ham hock
-          short ribs ground round. Shoulder pastrami ground round filet mignon
-          chislic. Corned beef cow venison chicken porchetta prosciutto
-          bresaola. Biltong spare ribs ball tip fatback.
+          Hello and welcome to DamScan! Collaborate with us in a project where
+          students, staff, and community members create a historical digital
+          archive of the Oregon State University campus. Download our iOS
+          application below and help contribute to our archive. Then, view scans
+          that you and many others have submitted here on our website!
         </p>
-        <p>
-          Venison kielbasa t-bone shoulder, drumstick tenderloin frankfurter
-          sausage beef turducken salami porchetta bacon. Shank ball tip turkey,
-          chislic pig hamburger cupim capicola alcatra shankle landjaeger jowl
-          shoulder jerky chicken. Boudin jerky shoulder, ham doner strip steak
-          pork chop chicken tongue sirloin prosciutto tri-tip. Beef ribs pork
-          meatball corned beef turducken. Tail jerky tri-tip, bacon pork loin
-          andouille ground round spare ribs.
-        </p>
+
+        <div style={{ paddingTop: 20 }}>
+          <h6>Developed by:</h6>
+          <p>Kristina Lee</p>
+          <p>Gavin Gutowsky</p>
+          <p>Cristian Garibay</p>
+        </div>
+
+        <h6 style={{ paddingTop: 20 }}>
+          Download our app from the iOS App Store:
+        </h6>
+        <img
+          src={qrCode}
+          alt={"Dam Scan QR code"}
+          style={{ width: 100, height: 100 }}
+        />
       </Modal.Body>
       <br />
       <ModalFooter>Qr code here</ModalFooter>
