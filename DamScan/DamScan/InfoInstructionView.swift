@@ -46,7 +46,7 @@ class InfoInstructionView: UIView {
     
     let recordText: UITextView = {
         let textView = UITextView()
-        let attributeText = NSMutableAttributedString(string: "Tap to start recording points, tap again to stop", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)])
+        let attributeText = NSMutableAttributedString(string: "Tap to start recording points, tap again to stop", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
         textView.attributedText = attributeText
         textView.textAlignment = .left
         textView.isEditable = false
@@ -64,7 +64,7 @@ class InfoInstructionView: UIView {
     
     let deleteText: UITextView = {
         let textView = UITextView()
-        let attributeText = NSMutableAttributedString(string: "Tap to delete captured points", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)])
+        let attributeText = NSMutableAttributedString(string: "Tap to delete captured points", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
         textView.attributedText = attributeText
         textView.textAlignment = .left
         textView.isEditable = false
@@ -82,7 +82,7 @@ class InfoInstructionView: UIView {
     
     let pointText: UITextView = {
         let textView = UITextView()
-        let attributeText = NSMutableAttributedString(string: "Tap to hide captured points, tap again to show", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)])
+        let attributeText = NSMutableAttributedString(string: "Tap to hide captured points, tap again to show", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
         textView.attributedText = attributeText
         textView.textAlignment = .left
         textView.isEditable = false
@@ -100,7 +100,7 @@ class InfoInstructionView: UIView {
     
     let cameraText: UITextView = {
         let textView = UITextView()
-        let attributeText = NSMutableAttributedString(string: "Tap to show live camera feed, tap again to hide", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)])
+        let attributeText = NSMutableAttributedString(string: "Tap to show live camera feed, tap again to hide", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
         textView.attributedText = attributeText
         textView.textAlignment = .left
         textView.isEditable = false
@@ -118,7 +118,7 @@ class InfoInstructionView: UIView {
     
     let uploadText: UITextView = {
         let textView = UITextView()
-        let attributeText = NSMutableAttributedString(string: "Tap to open a submission form including input fields for building and room scanned", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 15)])
+        let attributeText = NSMutableAttributedString(string: "Tap to open a submission form including input fields for building and room scanned", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
         textView.attributedText = attributeText
         textView.textAlignment = .left
         textView.isEditable = false
@@ -162,7 +162,7 @@ class InfoInstructionView: UIView {
             recordImage.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 5),
             recordImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 40),
             recordText.leftAnchor.constraint(equalTo: recordImage.rightAnchor, constant: 10),
-            recordText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -25),
+            recordText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -40),
             recordText.centerYAnchor.constraint(equalTo: recordImage.topAnchor, constant: 25),
             
             deleteImage.widthAnchor.constraint(equalToConstant: 50),
@@ -170,7 +170,7 @@ class InfoInstructionView: UIView {
             deleteImage.topAnchor.constraint(equalTo: recordImage.bottomAnchor, constant: 20),
             deleteImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 40),
             deleteText.leftAnchor.constraint(equalTo: deleteImage.rightAnchor, constant: 10),
-            deleteText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -25),
+            deleteText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -40),
             deleteText.centerYAnchor.constraint(equalTo: deleteImage.topAnchor, constant: 25),
             
             pointImage.widthAnchor.constraint(equalToConstant: 50),
@@ -178,7 +178,7 @@ class InfoInstructionView: UIView {
             pointImage.topAnchor.constraint(equalTo: deleteImage.bottomAnchor, constant: 20),
             pointImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 40),
             pointText.leftAnchor.constraint(equalTo: pointImage.rightAnchor, constant: 10),
-            pointText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -25),
+            pointText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -40),
             pointText.centerYAnchor.constraint(equalTo: pointImage.topAnchor, constant: 22.5),
             
             cameraImage.widthAnchor.constraint(equalToConstant: 50),
@@ -186,7 +186,7 @@ class InfoInstructionView: UIView {
             cameraImage.topAnchor.constraint(equalTo: pointImage.bottomAnchor, constant: 20),
             cameraImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 40),
             cameraText.leftAnchor.constraint(equalTo: cameraImage.rightAnchor, constant: 10),
-            cameraText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -25),
+            cameraText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -40),
             cameraText.centerYAnchor.constraint(equalTo: cameraImage.topAnchor, constant: 20),
             
             uploadImage.widthAnchor.constraint(equalToConstant: 50),
@@ -194,7 +194,7 @@ class InfoInstructionView: UIView {
             uploadImage.topAnchor.constraint(equalTo: cameraImage.bottomAnchor, constant: 20),
             uploadImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 40),
             uploadText.leftAnchor.constraint(equalTo: uploadImage.rightAnchor, constant: 10),
-            uploadText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -25),
+            uploadText.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -40),
             uploadText.centerYAnchor.constraint(equalTo: uploadImage.topAnchor, constant: 25)
         ])
     }
