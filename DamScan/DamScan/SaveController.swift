@@ -7,24 +7,6 @@ import Foundation
 
 class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
     var mainController: MainController!
-    private var buildingData: [String] = [
-        "Select building...",
-        "Kelley Engineering Center",
-        "Johnson Hall"
-    ]
-    private var locationDict = [
-        "Select building...": ["Select building..."],
-        "Kelley Engineering Center": ["Select room...", "1001", "1002", "1003"],
-        "Johnson Hall": ["Select room...", "101", "102"]
-    ]
-    private var roomList = [String]()
-    private var selectedBuilding = "Select building..."
-    private var selectedRoom = "Select room..."
-    private let buildingPicker = UIPickerView()
-    private let roomPicker = UIPickerView()
-    private let spinner = UIActivityIndicatorView(style: .large)
-    private let saveCurrentButton = UIButton(type: .system)
-    private let saveCurrentScanLabel = UILabel()
     
     private let dismissViewButton: UIButton = {
         let button = UIButton(type: .system)
@@ -41,9 +23,24 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         return imageView
     }()
     
+    private let saveCurrentScanLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .damBlue
+        return label
+    }()
+    
+    private let fileNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Filename:"
+        label.textAlignment = .right
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    } ()
+    
     private var fileName: UITextView = {
         let textView = UITextView()
-        textView.text = "File-Name"
+        textView.text = "Building-Room"
         textView.font = .boldSystemFont(ofSize: 18)
         textView.textColor = .damBlue
         textView.textAlignment = .center
@@ -52,6 +49,25 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
+    
+    private var buildingData: [String] = [
+        "Select building...",
+        "Kelley Engineering Center",
+        "Johnson Hall"
+    ]
+    
+    private var locationDict = [
+        "Select building...": ["Select room..."],
+        "Kelley Engineering Center": ["Select room...", "1001", "1002", "1003"],
+        "Johnson Hall": ["Select room...", "101", "102"]
+    ]
+    
+    private var roomList = [String]()
+    private var selectedBuilding = "Select building..."
+    private var selectedRoom = "Select room..."
+    
+    private let buildingPicker = UIPickerView()
+    private let roomPicker = UIPickerView()
     
     private let buildingInputLabel: UILabel = {
         let label = UILabel()
@@ -85,7 +101,7 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     
     private let roomTextField: UITextField = {
         let textField = UITextField()
-        textField.text = "Select building..."
+        textField.text = "Select room..."
         textField.textColor = .lightGray
         textField.textAlignment = .left
         textField.layer.borderWidth = 1.0
@@ -108,6 +124,26 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         return toolBar
     } ()
     
+    private let submitButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.tintColor = .white
+        button.layer.cornerRadius = 15
+        button.backgroundColor = .damBlue
+        button.setTitle("SUBMIT SCAN", for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private let spinner: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .white
+        indicator.backgroundColor = .clear
+        indicator.hidesWhenStopped = true
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -116,23 +152,24 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         view.addSubview(dismissViewButton)
         
         view.addSubview(imageView)
+        saveCurrentScanLabel.attributedText = NSMutableAttributedString(string: "Current Scan: \(mainController.renderer.highConfCount) points", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)])
+        view.addSubview(saveCurrentScanLabel)
+        view.addSubview(fileNameLabel)
         view.addSubview(fileName)
         
         view.addSubview(toolBar)
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneClick(sender:)))
         let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(doneClick(sender:)))
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelClick(sender:)))
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         
         view.addSubview(buildingInputLabel)
-        
         buildingTextField.delegate = self
         buildingTextField.inputView = buildingPicker
         buildingTextField.inputAccessoryView = toolBar
         view.addSubview(buildingTextField)
         
         view.addSubview(roomInputLabel)
-        
         roomTextField.delegate = self
         roomTextField.inputView = roomPicker
         roomTextField.inputAccessoryView = toolBar
@@ -146,25 +183,9 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         roomPicker.dataSource = self
         roomPicker.translatesAutoresizingMaskIntoConstraints =  false
         
-        saveCurrentScanLabel.text = "Current Scan: \(mainController.renderer.highConfCount) points"
-        saveCurrentScanLabel.translatesAutoresizingMaskIntoConstraints = false
-        saveCurrentScanLabel.textColor = .damBlue
-        view.addSubview(saveCurrentScanLabel)
-
-        spinner.color = .white
-        spinner.backgroundColor = .clear
-        spinner.hidesWhenStopped = true
-        spinner.translatesAutoresizingMaskIntoConstraints = false
+        submitButton.addTarget(self, action: #selector(executeUpload), for: .touchUpInside)
+        view.addSubview(submitButton)
         view.addSubview(spinner)
-        
-        saveCurrentButton.tintColor = .white
-        saveCurrentButton.layer.cornerRadius = 15
-        saveCurrentButton.backgroundColor = .damBlue
-        saveCurrentButton.setTitle("SUBMIT SCAN", for: .normal)
-        saveCurrentButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        saveCurrentButton.translatesAutoresizingMaskIntoConstraints = false
-        saveCurrentButton.addTarget(self, action: #selector(executeUpload), for: .touchUpInside)
-        view.addSubview(saveCurrentButton)
         
         NSLayoutConstraint.activate([
             dismissViewButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 25),
@@ -178,35 +199,38 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             imageView.heightAnchor.constraint(equalToConstant: 200),
             
             saveCurrentScanLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            saveCurrentScanLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -5),
+            saveCurrentScanLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor),
             
-            fileName.topAnchor.constraint(equalTo: saveCurrentScanLabel.bottomAnchor, constant: 25),
-            fileName.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            fileNameLabel.topAnchor.constraint(equalTo: saveCurrentScanLabel.bottomAnchor, constant: 36),
+            fileNameLabel.widthAnchor.constraint(equalToConstant: 115),
+            fileNameLabel.heightAnchor.constraint(equalToConstant: 45),
+            fileName.topAnchor.constraint(equalTo: saveCurrentScanLabel.bottomAnchor, constant: 40),
+            fileName.leftAnchor.constraint(equalTo: fileNameLabel.rightAnchor, constant: 14),
             
             buildingInputLabel.topAnchor.constraint(equalTo: fileName.bottomAnchor, constant: 10),
-            buildingInputLabel.widthAnchor.constraint(equalToConstant: 110),
+            buildingInputLabel.widthAnchor.constraint(equalToConstant: 115),
             buildingInputLabel.heightAnchor.constraint(equalToConstant: 45),
             
             buildingTextField.topAnchor.constraint(equalTo: fileName.bottomAnchor, constant: 10),
             buildingTextField.leftAnchor.constraint(equalTo: buildingInputLabel.rightAnchor, constant: 10),
-            buildingTextField.widthAnchor.constraint(equalToConstant: 225),
+            buildingTextField.widthAnchor.constraint(equalToConstant: 220),
             buildingTextField.heightAnchor.constraint(equalToConstant: 45),
             
             roomInputLabel.topAnchor.constraint(equalTo: buildingTextField.bottomAnchor, constant: 15),
-            roomInputLabel.widthAnchor.constraint(equalToConstant: 110),
+            roomInputLabel.widthAnchor.constraint(equalToConstant: 115),
             roomInputLabel.heightAnchor.constraint(equalToConstant: 45),
             
             roomTextField.topAnchor.constraint(equalTo: buildingTextField.bottomAnchor, constant: 15),
             roomTextField.leftAnchor.constraint(equalTo: buildingInputLabel.rightAnchor, constant: 10),
-            roomTextField.widthAnchor.constraint(equalToConstant: 225),
+            roomTextField.widthAnchor.constraint(equalToConstant: 220),
             roomTextField.heightAnchor.constraint(equalToConstant: 45),
 
             spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            saveCurrentButton.bottomAnchor.constraint(equalTo: roomTextField.bottomAnchor, constant: 100),
-            saveCurrentButton.widthAnchor.constraint(equalToConstant: 175),
-            saveCurrentButton.heightAnchor.constraint(equalToConstant: 50),
-            saveCurrentButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            submitButton.topAnchor.constraint(equalTo: roomTextField.bottomAnchor, constant: 50),
+            submitButton.widthAnchor.constraint(equalToConstant: 175),
+            submitButton.heightAnchor.constraint(equalToConstant: 50),
+            submitButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
     }
     
@@ -231,7 +255,6 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         fileName.text = building + "-" + room
     }
     
-    /// Picker delegate methods
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -263,17 +286,18 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             } else {
                 buildingTextField.textColor = .black
             }
-            selectedBuilding = buildingData[row]
-            buildingTextField.text = selectedBuilding
+//            selectedBuilding = buildingData[row]
+//            buildingTextField.text = selectedBuilding
+            buildingTextField.text = buildingData[row]
             setRoomsList(building: selectedBuilding)
             self.roomPicker.reloadAllComponents()
             roomPicker.selectRow(0, inComponent: 0, animated: true)
             roomTextField.textColor = .lightGray
-            selectedRoom = locationDict[selectedBuilding]![0]
-            roomTextField.text = selectedRoom
+            roomTextField.text  = locationDict[selectedBuilding]![0]
         } else {
-            selectedRoom = locationDict[selectedBuilding]![row]
-            roomTextField.text = selectedRoom
+//            selectedRoom = locationDict[selectedBuilding]![row]
+//            roomTextField.text = selectedRoom
+            roomTextField.text = locationDict[selectedBuilding]![row]
             if row == 0 {
                 roomTextField.textColor = .lightGray
             } else {
@@ -284,27 +308,48 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     }
     
     @objc func doneClick(sender: UIBarButtonItem) {
+        selectedBuilding = buildingTextField.text!
+        selectedRoom = roomTextField.text!
+        refreshFileName()
         roomTextField.resignFirstResponder()
         buildingTextField.resignFirstResponder()
     }
     
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
-
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        return true
+    @objc func cancelClick(sender: UIBarButtonItem) {
+        if selectedBuilding != buildingTextField.text! {
+            let row = buildingData.firstIndex(of: selectedBuilding)!
+            buildingPicker.selectRow(row, inComponent: 0, animated: true)
+            buildingTextField.text = selectedBuilding
+            setRoomsList(building: selectedBuilding)
+            if (row == 0) {
+                buildingTextField.textColor = .lightGray
+            } else {
+                buildingTextField.textColor = .black
+            }
+            self.roomPicker.reloadAllComponents()
+        }
+        if (selectedRoom != roomTextField.text!) {
+            let row = locationDict[selectedBuilding]!.firstIndex(of: selectedRoom)!
+            roomPicker.selectRow(row, inComponent: 0, animated: true)
+            roomTextField.text = selectedRoom
+            if (row == 0) {
+                roomTextField.textColor = .lightGray
+            } else {
+                roomTextField.textColor = .black
+            }
+        }
+        refreshFileName()
+        roomTextField.resignFirstResponder()
+        buildingTextField.resignFirstResponder()
     }
    
     func onSaveError(error: XError) {
-        dismissModal()
+        dismissView()
         mainController.onSaveError(error: error)
     }
-        
-    func dismissModal() { self.dismiss(animated: true, completion: nil) }
     
     private func beforeSave() {
-        saveCurrentButton.isEnabled = false
+        submitButton.isEnabled = false
         isModalInPresentation = true
     }
     
@@ -336,7 +381,7 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         mainController.renderer.saveAsPlyFile(
             fileName: fileName,
             beforeGlobalThread: [beforeSave, spinner.startAnimating],
-            afterGlobalThread: [dismissModal, spinner.stopAnimating, mainController.afterSave],
+            afterGlobalThread: [dismissView, spinner.stopAnimating, mainController.afterSave],
             errorCallback: onSaveError,
             format: format)
         
