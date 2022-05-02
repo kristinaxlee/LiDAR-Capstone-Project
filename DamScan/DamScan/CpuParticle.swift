@@ -1,8 +1,3 @@
-//
-//  CpuParticle.swift
-//  SceneDepthPointCloud
-//
-
 import Foundation
 
 final class CPUParticle {

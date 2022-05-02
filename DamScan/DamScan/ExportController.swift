@@ -1,7 +1,3 @@
-//
-//  ExportController.swift
-//  SceneDepthPointCloud
-
 import SwiftUI
 import Foundation
 
