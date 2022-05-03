@@ -3,7 +3,7 @@ import Metal
 import MetalKit
 import ARKit
 
-final class MainController: UIViewController, ARSessionDelegate {
+final class MainController: UIViewController, ARSessionDelegate, RendererDelegate {
     private let isUIEnabled = true
     private var clearButton = UIButton(type: .system)
     private let confidenceControl = UISegmentedControl(items: ["Low", "Medium", "High"])
@@ -30,7 +30,6 @@ final class MainController: UIViewController, ARSessionDelegate {
             print("Metal is not supported on this device")
             return
         }
-        
         session.delegate = self
         // Set the view to use the default device
         if let view = view as? MTKView {
@@ -43,6 +42,7 @@ final class MainController: UIViewController, ARSessionDelegate {
             // Configure the renderer to draw to the view
             renderer = Renderer(session: session, metalDevice: device, renderDestination: view)
             renderer.drawRectResized(size: view.bounds.size)
+            renderer.delegate = self
         }
         
         clearButton = createButton(mainView: self, iconName: "trash.circle.fill",
@@ -290,10 +290,10 @@ extension MainController {
     func displayErrorMessage(error: XError) -> Void {
         var title: String
         switch error {
-            case.alreadySavingFile: title = "Save in progress, please wait."
-            case.invalidInput: title = "Building or room not selected, try again"
-            case.noScanDone: title = "No Scan to save."
-            case.savingFailed: title = "Failed to write file."
+            case.alreadySavingFile: title = "Save in progress, please wait"
+            case.invalidInput: title = "No building or room selected, try again"
+            case.noScanDone: title = "No Scan to save"
+            case.savingFailed: title = "Failed to write file"
         }
         
         let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
@@ -346,4 +346,18 @@ func createButton(mainView: MainController, iconName: String, tintColor: UIColor
 
 extension MTKView: RenderDestinationProvider {
     
+}
+
+// MARK: - RendererDelegate Conformation
+extension MainController {
+   func maxPointsReached() {
+       viewValueChanged(view: showSceneButton)
+       let alert = UIAlertController(title: "Maximum points captured, upload or delete current scan", message: nil, preferredStyle: .alert)
+       alert.view.subviews.first?.subviews.first?.subviews.first?.backgroundColor = .red
+       present(alert, animated: true, completion: nil)
+       let when = DispatchTime.now() + 2
+       DispatchQueue.main.asyncAfter(deadline: when) {
+           alert.dismiss(animated: true, completion: nil)
+       }
+   }
 }
