@@ -29,16 +29,6 @@ export function init() {
   camera.aspect = (window.innerWidth - 450) / window.innerHeight;
   controls = new OrbitControls(camera, renderer.domElement);
   cameraControls = new CameraControls(camera, renderer.domElement);
-  /*material = new THREE.MeshPhysicalMaterial({
-    envMap: null,
-    metalness: 0,
-    roughness: 0,
-    transparent: true,
-    transmission: 1.0,
-    side: THREE.DoubleSide,
-    clearcoat: 1.0,
-    clearcoatRoughness: 0.25,
-  });*/
 
   // grab buttons from UI
   const zoomInButton = document.getElementById("zoom-in");
@@ -140,6 +130,11 @@ function render() {
  * Render a new scan from a url when user presses "Display" button
  */
 export function renderDisplay(filename) {
+  // remove previous scans
+  while (scene.children.length > 0) {
+    scene.remove(scene.children[0]);
+  }
+
   console.log(" -- filename sent to renderDisplay: ", filename);
   scene.background = new THREE.Color("#ffffff");
   scene.add(new THREE.AxesHelper(5));

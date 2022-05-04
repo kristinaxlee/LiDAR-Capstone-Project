@@ -15,6 +15,6 @@ INSERT INTO `scans` VALUES
 (3, '1646969803', 'Kelley Engineering Center', '1002', 'Engineering', 'Kelley_1002_1646969803'),
 (4, '1650076603', 'Kelley Engineering Center', '1002', 'Engineering', 'Kelley_1002_1650076603'),
 (5, '1635647803', 'Kelley Engineering Center', '1003', 'Engineering', 'Kelley_1003_1635647803'),
-(6, '1635647803', 'Kelley Engineering Center', '1003', 'Engineering', 'Kelley_1003_1647398203'),
+(6, '1647398203', 'Kelley Engineering Center', '1003', 'Engineering', 'Kelley_1003_1647398203'),
 (7, '1649212603', 'Johnson Hall', '101', 'Engineering', 'Johnson_101_1649212603'),
 (8, '1651459003', 'Johnson Hall', '102', 'Engineering', 'Johnson_102_1651459003');
