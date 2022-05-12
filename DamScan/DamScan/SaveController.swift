@@ -1,7 +1,3 @@
-//
-//  SaveController.swift
-//  SceneDepthPointCloud
-    
 import SwiftUI
 import Foundation
 
@@ -85,7 +81,7 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         textField.layer.borderWidth = 1.0
         textField.layer.cornerRadius = 10.0
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
-        textField.leftView = paddingView;
+        textField.leftView = paddingView
         textField.leftViewMode = .always
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -107,7 +103,7 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         textField.layer.borderWidth = 1.0
         textField.layer.cornerRadius = 10.0
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
-        textField.leftView = paddingView;
+        textField.leftView = paddingView
         textField.leftViewMode = .always
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
@@ -165,12 +161,14 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         
         view.addSubview(buildingInputLabel)
         buildingTextField.delegate = self
+        buildingTextField.addTarget(self, action: #selector(buildingTextSelected), for: .touchDown)
         buildingTextField.inputView = buildingPicker
         buildingTextField.inputAccessoryView = toolBar
         view.addSubview(buildingTextField)
         
         view.addSubview(roomInputLabel)
         roomTextField.delegate = self
+        roomTextField.addTarget(self, action: #selector(roomTextSelected), for: .touchDown)
         roomTextField.inputView = roomPicker
         roomTextField.inputAccessoryView = toolBar
         view.addSubview(roomTextField)
@@ -238,6 +236,7 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         self.dismiss(animated: true, completion: nil)
     }
     
+    // MARK: - Picker functionality
     func setRoomsList(building: String) {
         self.roomList = locationDict[building]!
     }
@@ -257,6 +256,14 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
+    }
+    
+    @objc func buildingTextSelected() {
+        roomTextField.isUserInteractionEnabled = false
+    }
+    
+    @objc func roomTextSelected() {
+        buildingTextField.isUserInteractionEnabled = false
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
@@ -286,8 +293,6 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             } else {
                 buildingTextField.textColor = .black
             }
-//            selectedBuilding = buildingData[row]
-//            buildingTextField.text = selectedBuilding
             buildingTextField.text = buildingData[row]
             setRoomsList(building: selectedBuilding)
             self.roomPicker.reloadAllComponents()
@@ -295,8 +300,6 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             roomTextField.textColor = .lightGray
             roomTextField.text  = locationDict[selectedBuilding]![0]
         } else {
-//            selectedRoom = locationDict[selectedBuilding]![row]
-//            roomTextField.text = selectedRoom
             roomTextField.text = locationDict[selectedBuilding]![row]
             if row == 0 {
                 roomTextField.textColor = .lightGray
@@ -311,8 +314,10 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
         selectedBuilding = buildingTextField.text!
         selectedRoom = roomTextField.text!
         refreshFileName()
-        roomTextField.resignFirstResponder()
+        buildingTextField.isUserInteractionEnabled = true
+        roomTextField.isUserInteractionEnabled = true
         buildingTextField.resignFirstResponder()
+        roomTextField.resignFirstResponder()
     }
     
     @objc func cancelClick(sender: UIBarButtonItem) {
@@ -339,10 +344,13 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             }
         }
         refreshFileName()
-        roomTextField.resignFirstResponder()
+        buildingTextField.isUserInteractionEnabled = true
+        roomTextField.isUserInteractionEnabled = true
         buildingTextField.resignFirstResponder()
+        roomTextField.resignFirstResponder()
     }
-   
+    
+    // MARK: - Upload functionality
     func onSaveError(error: XError) {
         dismissView()
         mainController.onSaveError(error: error)
@@ -419,7 +427,8 @@ class SaveController : UIViewController, UIPickerViewDelegate, UIPickerViewDataS
             let responseString = String(data: data, encoding: .utf8)
             print("responseString = \(responseString!)")
 
-            self.deleteFile(filePath: filePath)
         }).resume()
+        
+        self.deleteFile(filePath: filePath)
     }
 }

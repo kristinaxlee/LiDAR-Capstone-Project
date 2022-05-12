@@ -1,11 +1,3 @@
-//
-//  InfoView.swift
-//  SceneDepthPointCloud
-//
-//  Created by Gavin Gutowsky on 1/13/22.
-//  Copyright © 2022 Apple. All rights reserved.
-//
-
 import SwiftUI
 import Foundation
 
@@ -39,7 +31,7 @@ class InfoIntroView: UIView {
     
     let bodyTextView: UITextView = {
         let textView = UITextView()
-        let attributeText = NSMutableAttributedString(string: "Welcome to DamScan, this application allows students, staff, and community members to participate in the creation of a historical digital archive of Oregon State University. Using this app you can use LiDAR technology to capture 3D scans of the OSU campus by building and room. \n\nGo to the next screen to learn how to capture and upload a scan. \n\nThank you for contributing!", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
+        let attributeText = NSMutableAttributedString(string: "Welcome to DamScan, this application allows students, staff, and community members to participate in the creation of a historical digital archive of Oregon State University. Using this app you can utilize LiDAR technology to create 3D scans of the OSU campus by building and room. \n\nGo to the next screen to learn how to capture and upload a scan. \n\nThank you for contributing!", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
         textView.attributedText = attributeText
         textView.textAlignment = .center
         textView.isEditable = false

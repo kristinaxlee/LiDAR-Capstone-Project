@@ -1,11 +1,3 @@
-//
-//  UploadService.swift
-//  DamScan
-//
-//  Created by Gavin Gutowsky on 3/9/22.
-//  Copyright © 2022 Apple. All rights reserved.
-//
-
 import Foundation
 import MobileCoreServices
 

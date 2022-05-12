@@ -1,11 +1,3 @@
-//
-//  InfoLogoView.swift
-//  SceneDepthPointCloud
-//
-//  Created by Gavin Gutowsky on 1/17/22.
-//  Copyright © 2022 Apple. All rights reserved.
-//
-
 import SwiftUI
 import Foundation
 
@@ -60,6 +52,18 @@ class InfoLogoView: UIView {
         return textView
     }()
     
+    let nextTextView: UITextView = {
+        let textView = UITextView()
+        let attributeText = NSMutableAttributedString(string: "Tap NEXT or swipe left to continue", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16)])
+        textView.attributedText = attributeText
+        textView.textColor = .damBlue
+        textView.textAlignment = .center
+        textView.isEditable = false
+        textView.isScrollEnabled = false
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        return textView
+    }()
+    
     let arrowImage: UIImageView = {
         let image = UIImage(systemName: "arrow.right")
         let imageView = UIImageView(image: image!)
@@ -72,7 +76,8 @@ class InfoLogoView: UIView {
         self.addSubview(imageView)
         self.addSubview(headerTextView)
         self.addSubview(authorTextView)
-        self.addSubview(arrowImage)
+        self.addSubview(nextTextView)
+//        self.addSubview(arrowImage)
         NSLayoutConstraint.activate([
             textView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             textView.topAnchor.constraint(equalTo: self.topAnchor, constant: 100),
@@ -84,10 +89,12 @@ class InfoLogoView: UIView {
             headerTextView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 50),
             authorTextView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             authorTextView.topAnchor.constraint(equalTo: headerTextView.bottomAnchor),
-            arrowImage.topAnchor.constraint(equalTo: authorTextView.bottomAnchor, constant: 120),
-            arrowImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            arrowImage.widthAnchor.constraint(equalToConstant: 45),
-            arrowImage.heightAnchor.constraint(equalToConstant: 40)
+            nextTextView.topAnchor.constraint(equalTo: authorTextView.bottomAnchor, constant: 120),
+            nextTextView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+//            arrowImage.topAnchor.constraint(equalTo: authorTextView.bottomAnchor, constant: 120),
+//            arrowImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+//            arrowImage.widthAnchor.constraint(equalToConstant: 45),
+//            arrowImage.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
 }

@@ -1,7 +1,3 @@
-//
-//  PLYFile.swift
-//  SceneDepthPointCloud
-
 /*
  PLY File Scalar Byte Counts
  http://paulbourke.net/dataformats/ply/

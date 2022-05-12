@@ -1,11 +1,3 @@
-//
-//  InstructionView.swift
-//  SceneDepthPointCloud
-//
-//  Created by Gavin Gutowsky on 1/16/22.
-//  Copyright © 2022 Apple. All rights reserved.
-//
-
 import SwiftUI
 import Foundation
 
@@ -82,7 +74,7 @@ class InfoInstructionView: UIView {
     
     let pointText: UITextView = {
         let textView = UITextView()
-        let attributeText = NSMutableAttributedString(string: "Tap to hide captured points, tap again to show", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
+        let attributeText = NSMutableAttributedString(string: "Tap to hide points in view, tap again to show", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
         textView.attributedText = attributeText
         textView.textAlignment = .left
         textView.isEditable = false
@@ -100,7 +92,7 @@ class InfoInstructionView: UIView {
     
     let cameraText: UITextView = {
         let textView = UITextView()
-        let attributeText = NSMutableAttributedString(string: "Tap to show live camera feed, tap again to hide", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
+        let attributeText = NSMutableAttributedString(string: "Tap to show camera feed, tap again to hide", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
         textView.attributedText = attributeText
         textView.textAlignment = .left
         textView.isEditable = false
@@ -118,7 +110,7 @@ class InfoInstructionView: UIView {
     
     let uploadText: UITextView = {
         let textView = UITextView()
-        let attributeText = NSMutableAttributedString(string: "Tap to open a submission form including input fields for building and room scanned", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
+        let attributeText = NSMutableAttributedString(string: "Tap to open the submission form to input fields for building and room scanned", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16)])
         textView.attributedText = attributeText
         textView.textAlignment = .left
         textView.isEditable = false

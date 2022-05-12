@@ -1,13 +1,3 @@
-//
-//  InfoSwipeController.swift
-//  SceneDepthPointCloud
-//
-//  Created by Gavin Gutowsky on 1/12/22.
-//  Copyright © 2022 Apple. All rights reserved.
-//
-
-// https://www.youtube.com/watch?v=EKAVB_56RIU&t=15s
-
 import SwiftUI
 import Foundation
 

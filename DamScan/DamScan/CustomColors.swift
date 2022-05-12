@@ -1,11 +1,3 @@
-//
-//  CustomColors.swift
-//  SceneDepthPointCloud
-//
-//  Created by Gavin Gutowsky on 1/16/22.
-//  Copyright © 2022 Apple. All rights reserved.
-//
-
 import Foundation
 import SwiftUI
 

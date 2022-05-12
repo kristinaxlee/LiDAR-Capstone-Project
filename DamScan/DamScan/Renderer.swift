@@ -1,7 +1,3 @@
-//
-//  Renderer.swift
-//  SceneDepthPointCloud
-
 import Metal
 import MetalKit
 import ARKit
@@ -17,7 +13,7 @@ final class Renderer {
     var highConfCount = 0
     var savingError: XError? = nil
     // Maximum number of points we store in the point cloud
-    private let maxPoints = 15_000_000
+    private let maxPoints = 8_000_000
     // Number of sample points on the grid
     var numGridPoints = 2_000
     // Particle's size in pixels
@@ -33,6 +29,8 @@ final class Renderer {
     
     private lazy var rotateToARCamera = Self.makeRotateToARCameraMatrix(orientation: orientation)
     private let session: ARSession
+    
+    weak var delegate: RendererDelegate?
     
     // Metal objects and textures
     private let device: MTLDevice
@@ -258,20 +256,24 @@ final class Renderer {
             }
         }
         
-        renderEncoder.setDepthStencilState(relaxedStencilState)
-        renderEncoder.setRenderPipelineState(unprojectPipelineState)
-        renderEncoder.setVertexBuffer(pointCloudUniformsBuffers[currentBufferIndex])
-        renderEncoder.setVertexBuffer(particlesBuffer)
-        renderEncoder.setVertexBuffer(gridPointsBuffer)
-        renderEncoder.setVertexTexture(CVMetalTextureGetTexture(capturedImageTextureY!), index: Int(kTextureY.rawValue))
-        renderEncoder.setVertexTexture(CVMetalTextureGetTexture(capturedImageTextureCbCr!), index: Int(kTextureCbCr.rawValue))
-        renderEncoder.setVertexTexture(CVMetalTextureGetTexture(depthTexture!), index: Int(kTextureDepth.rawValue))
-        renderEncoder.setVertexTexture(CVMetalTextureGetTexture(confidenceTexture!), index: Int(kTextureConfidence.rawValue))
-        renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: gridPointsBuffer.count)
+        if (self.cpuParticlesBuffer.count < self.maxPoints) {
+            renderEncoder.setDepthStencilState(relaxedStencilState)
+            renderEncoder.setRenderPipelineState(unprojectPipelineState)
+            renderEncoder.setVertexBuffer(pointCloudUniformsBuffers[currentBufferIndex])
+            renderEncoder.setVertexBuffer(particlesBuffer)
+            renderEncoder.setVertexBuffer(gridPointsBuffer)
+            renderEncoder.setVertexTexture(CVMetalTextureGetTexture(capturedImageTextureY!), index: Int(kTextureY.rawValue))
+            renderEncoder.setVertexTexture(CVMetalTextureGetTexture(capturedImageTextureCbCr!), index: Int(kTextureCbCr.rawValue))
+            renderEncoder.setVertexTexture(CVMetalTextureGetTexture(depthTexture!), index: Int(kTextureDepth.rawValue))
+            renderEncoder.setVertexTexture(CVMetalTextureGetTexture(confidenceTexture!), index: Int(kTextureConfidence.rawValue))
+            renderEncoder.drawPrimitives(type: .point, vertexStart: 0, vertexCount: gridPointsBuffer.count)
         
-        currentPointIndex = (currentPointIndex + gridPointsBuffer.count) % maxPoints
-        currentPointCount = min(currentPointCount + gridPointsBuffer.count, maxPoints)
-        lastCameraTransform = frame.camera.transform
+            currentPointIndex = (currentPointIndex + gridPointsBuffer.count) % maxPoints
+            currentPointCount = min(currentPointCount + gridPointsBuffer.count, maxPoints)
+            lastCameraTransform = frame.camera.transform
+        } else {
+            self.delegate?.maxPointsReached()
+        }
     }
 }
 
@@ -466,4 +468,8 @@ private extension Renderer {
         let rotationAngle = Float(cameraToDisplayRotation(orientation: orientation)) * .degreesToRadian
         return flipYZ * matrix_float4x4(simd_quaternion(rotationAngle, Float3(0, 0, 1)))
     }
+}
+
+public protocol RendererDelegate: NSObjectProtocol {
+    func maxPointsReached()
 }

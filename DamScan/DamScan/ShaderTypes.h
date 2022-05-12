@@ -1,5 +1,3 @@
-
-
 #ifndef ShaderTypes_h
 #define ShaderTypes_h
 
