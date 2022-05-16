@@ -82,10 +82,10 @@ function SideMenu(props: any) {
 
   // API call to grab buildings
   useEffect(() => {
-    // include query param for category when selected
+    // include query param for department when selected
     axios
       .get(`http://localhost:8888/scans/buildings`, {
-        params: { category: filters.department },
+        params: { department: filters.department },
       })
       .then((res) => {
         const data = res.data;

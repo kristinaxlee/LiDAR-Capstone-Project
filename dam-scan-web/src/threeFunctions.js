@@ -68,6 +68,7 @@ function zoomIn() {
 
 /**
  * Move camera to its original position
+ * NOTE: This function does not work. Needs to be fixed in the future.
  */
 function zoomCenter() {
   console.log(" -- zoom function center button pressed");
