@@ -7,9 +7,9 @@
  * @param {*} value
  * @returns key of object containing the value
  */
-export function getKeyByValue(object, value) {
+const getKeyByValue = (object, value) => {
   return Object.keys(object).find((key) => object[key].includes(value));
-}
+};
 
 /**
  *
@@ -17,10 +17,15 @@ export function getKeyByValue(object, value) {
  * @param {*} variableName
  * @returns
  */
-export function flattenList(list, variableName) {
+const flattenList = (list, variableName) => {
   var results = [];
   list.forEach((item) => {
     results.push(item[variableName]);
   });
   return results;
-}
+};
+
+module.exports = {
+  flattenList,
+  getKeyByValue,
+};

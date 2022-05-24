@@ -38,18 +38,18 @@ const departments = ["Engineering", "Science", "Agriculture", "Academic"];
 function timeConverter(UNIX_timestamp: number) {
   var a = new Date(UNIX_timestamp * 1000);
   var months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
+    "January",
+    "February",
+    "March",
+    "April",
     "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
   var year = a.getFullYear();
   var month = months[a.getMonth()];
@@ -73,6 +73,7 @@ function SideMenu(props: any) {
     firstLoad,
     setShowTips,
     selectedScan,
+    resetFilters,
   } = props;
 
   const [menuActive, setMenuActive] = useState(true);
@@ -110,6 +111,11 @@ function SideMenu(props: any) {
 
   // API call to grab available dates (building and room must be chosen first)
   useEffect(() => {
+    // if the user deselects the building or room, clear the currently selected scan and results
+    if (filters.building === "" || filters.room === "") {
+      setSelectedScan(undefined);
+      setResults([]);
+    }
     if (filters.building !== "" && filters.room !== "") {
       axios
         .get(`http://localhost:8888/scans`, {
@@ -262,7 +268,7 @@ function SideMenu(props: any) {
                 if (
                   filters.building !== "" &&
                   filters.room !== "" &&
-                  selectedScan !== {}
+                  selectedScan !== undefined
                 ) {
                   renderDisplay(selectedScan.filename);
                   setShowWarning(false);
@@ -277,6 +283,9 @@ function SideMenu(props: any) {
                     setShowTips(true);
                     setFirstLoad(false);
                   }
+                  resetFilters();
+                  setSelectedScan(undefined);
+                  setResults([]);
                 } else {
                   setShowWarning(true);
                 }

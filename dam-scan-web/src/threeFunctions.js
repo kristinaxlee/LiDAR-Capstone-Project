@@ -54,7 +54,7 @@ export function init() {
  * Zoom camera out using dolly function
  */
 function zoomOut() {
-  cameraControls.dolly(-10, true);
+  cameraControls.dolly(-1, true);
   camera.updateProjectionMatrix();
 }
 
@@ -62,7 +62,7 @@ function zoomOut() {
  * Zoom camera in using dolly function
  */
 function zoomIn() {
-  cameraControls.dolly(10, true);
+  cameraControls.dolly(1, true);
   camera.updateProjectionMatrix();
 }
 

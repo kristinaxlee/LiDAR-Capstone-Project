@@ -9,7 +9,7 @@ const {
 } = require("./models/scans");
 const fs = require("fs");
 const multer = require("multer");
-import { flattenList } from "../lib/helper";
+const { flattenList } = require("../lib/helper");
 
 exports.router = router;
 

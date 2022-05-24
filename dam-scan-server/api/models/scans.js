@@ -1,6 +1,6 @@
 const { extractValidFields } = require("../../lib/validation");
 const mysqlPool = require("../../lib/mysqlPool");
-import { getKeyByValue } from "../../lib/helper";
+const { getKeyByValue } = require("../../lib/helper");
 
 /**
  * Schema describing required/optional fields of a scan object.
@@ -30,12 +30,12 @@ async function getScans(params) {
   var queryParams = [params.building, params.room];
 
   // Append query params into SQL query if a parameter was provided
-  if (params.toDate !== undefined || params.toDate !== "") {
+  if (params.toDate !== undefined && params.toDate !== "") {
     query = query.concat(" AND date <= ? ");
     queryParams.push(params.toDate);
   }
 
-  if (params.fromDate !== undefined || params.fromDate !== "") {
+  if (params.fromDate !== undefined && params.fromDate !== "") {
     query = query.concat(" AND date >= ? ");
     queryParams.push(params.fromDate);
   }
@@ -53,7 +53,7 @@ async function getBuildings(department) {
   var query = "SELECT DISTINCT building FROM scans";
   var queryParams = [];
 
-  if (department !== undefined || department !== "") {
+  if (department !== undefined && department !== "") {
     query = query.concat(" WHERE department = ? ");
     queryParams.push(department);
   }
