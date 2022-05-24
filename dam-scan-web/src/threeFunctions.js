@@ -54,7 +54,7 @@ export function init() {
  * Zoom camera out using dolly function
  */
 function zoomOut() {
-  cameraControls.dolly(-10, true);
+  cameraControls.dolly(-1, true);
   camera.updateProjectionMatrix();
 }
 
@@ -62,12 +62,13 @@ function zoomOut() {
  * Zoom camera in using dolly function
  */
 function zoomIn() {
-  cameraControls.dolly(10, true);
+  cameraControls.dolly(1, true);
   camera.updateProjectionMatrix();
 }
 
 /**
  * Move camera to its original position
+ * NOTE: This function does not work. Needs to be fixed in the future.
  */
 function zoomCenter() {
   console.log(" -- zoom function center button pressed");

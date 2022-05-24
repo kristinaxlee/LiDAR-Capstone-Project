@@ -3,7 +3,7 @@ CREATE TABLE `scans` (
   `date` double (12, 0) NOT NULL,
   `building` varchar (255) NOT NULL,
   `room` varchar (255) NOT NULL,
-  `category` varchar (255) NOT NULL,
+  `department` varchar (255) NOT NULL,
   `filename` varchar (255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY (`filename`)

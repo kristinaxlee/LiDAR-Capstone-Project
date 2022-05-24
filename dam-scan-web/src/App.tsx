@@ -27,7 +27,18 @@ function App() {
     date: "",
   });
 
-  const [selectedScan, setSelectedScan] = useState({});
+  const [selectedScan, setSelectedScan] = useState(undefined);
+
+  const resetFilters = () => {
+    setFilters({
+      department: "",
+      fromDate: "",
+      toDate: "",
+      room: "",
+      building: "",
+      date: "",
+    });
+  };
 
   const setRoom = (e: any) => {
     setFilters({
@@ -97,6 +108,7 @@ function App() {
         setShowTips={setShowTips}
         setSelectedScan={setSelectedScan}
         selectedScan={selectedScan}
+        resetFilters={resetFilters}
       />
       <MapContainer id="container">
         <MapTitle>

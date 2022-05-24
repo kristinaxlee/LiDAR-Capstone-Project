@@ -1,188 +1,160 @@
 {
-	"info": {
-		"_postman_id": "88a8b61f-b54e-4a4e-9678-046070b3bdad",
-		"name": "dam-scan-server",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Get all scans",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8888/scans?room=1001&building=Kelley Engineering Center",
-					"host": [
-						"localhost"
-					],
-					"port": "8888",
-					"path": [
-						"scans"
-					],
-					"query": [
-						{
-							"key": "category",
-							"value": "Science",
-							"disabled": true
-						},
-						{
-							"key": "room",
-							"value": "1001"
-						},
-						{
-							"key": "building",
-							"value": "Kelley Engineering Center"
-						}
-					]
-				}
-			},
-			"response": [
-				{
-					"name": "Get all scans from a Science building",
-					"originalRequest": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:8888/scans?category=Science",
-							"host": [
-								"localhost"
-							],
-							"port": "8888",
-							"path": [
-								"scans"
-							],
-							"query": [
-								{
-									"key": "category",
-									"value": "Science"
-								}
-							]
-						}
-					},
-					"_postman_previewlanguage": null,
-					"header": null,
-					"cookie": [],
-					"body": null
-				}
-			]
-		},
-		{
-			"name": "Get file contents",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8888/scans/apple",
-					"host": [
-						"localhost"
-					],
-					"port": "8888",
-					"path": [
-						"scans",
-						"apple"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Insert new scan with file storage",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "file",
-							"type": "file",
-							"src": "/Users/kristinaxlee/GitHub/LiDAR-Capstone-Project/dam-scan-server/data/apple.ply"
-						},
-						{
-							"key": "filename",
-							"value": "apple.ply",
-							"type": "text"
-						},
-						{
-							"key": "date",
-							"value": "12345",
-							"type": "text"
-						},
-						{
-							"key": "building",
-							"value": "Kelley Engineering Center",
-							"type": "text"
-						},
-						{
-							"key": "room",
-							"value": "1009",
-							"type": "text"
-						}
-					]
-				},
-				"url": {
-					"raw": "localhost:8888/scans/",
-					"host": [
-						"localhost"
-					],
-					"port": "8888",
-					"path": [
-						"scans",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get all distinct buildings",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8888/scans/buildings?category=Engineering",
-					"host": [
-						"localhost"
-					],
-					"port": "8888",
-					"path": [
-						"scans",
-						"buildings"
-					],
-					"query": [
-						{
-							"key": "category",
-							"value": "Engineering"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get list of rooms in a building",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8888/scans/rooms?building=Kelley Engineering Center",
-					"host": [
-						"localhost"
-					],
-					"port": "8888",
-					"path": [
-						"scans",
-						"rooms"
-					],
-					"query": [
-						{
-							"key": "building",
-							"value": "Kelley Engineering Center"
-						}
-					]
-				}
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "88a8b61f-b54e-4a4e-9678-046070b3bdad",
+    "name": "dam-scan-server",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get all scans",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8888/scans?room=1001&building=Kelley Engineering Center",
+          "host": ["localhost"],
+          "port": "8888",
+          "path": ["scans"],
+          "query": [
+            {
+              "key": "department",
+              "value": "Science",
+              "disabled": true
+            },
+            {
+              "key": "room",
+              "value": "1001"
+            },
+            {
+              "key": "building",
+              "value": "Kelley Engineering Center"
+            }
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Get all scans from Engineering buildings",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8888/scans?department=Engineering",
+              "host": ["localhost"],
+              "port": "8888",
+              "path": ["scans"],
+              "query": [
+                {
+                  "key": "department",
+                  "value": "Engineering"
+                }
+              ]
+            }
+          },
+          "_postman_previewlanguage": null,
+          "header": null,
+          "cookie": [],
+          "body": null
+        }
+      ]
+    },
+    {
+      "name": "Get file contents",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8888/scans/apple",
+          "host": ["localhost"],
+          "port": "8888",
+          "path": ["scans", "apple"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Insert new scan with file storage",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file",
+              "src": "/Users/kristinaxlee/GitHub/LiDAR-Capstone-Project/dam-scan-server/data/apple.ply"
+            },
+            {
+              "key": "filename",
+              "value": "apple.ply",
+              "type": "text"
+            },
+            {
+              "key": "date",
+              "value": "12345",
+              "type": "text"
+            },
+            {
+              "key": "building",
+              "value": "Kelley Engineering Center",
+              "type": "text"
+            },
+            {
+              "key": "room",
+              "value": "1009",
+              "type": "text"
+            }
+          ]
+        },
+        "url": {
+          "raw": "localhost:8888/scans/",
+          "host": ["localhost"],
+          "port": "8888",
+          "path": ["scans", ""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get all distinct buildings",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8888/scans/buildings?department=Engineering",
+          "host": ["localhost"],
+          "port": "8888",
+          "path": ["scans", "buildings"],
+          "query": [
+            {
+              "key": "department",
+              "value": "Engineering"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get list of rooms in a building",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:8888/scans/rooms?building=Kelley Engineering Center",
+          "host": ["localhost"],
+          "port": "8888",
+          "path": ["scans", "rooms"],
+          "query": [
+            {
+              "key": "building",
+              "value": "Kelley Engineering Center"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
 }

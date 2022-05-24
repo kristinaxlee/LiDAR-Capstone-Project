@@ -1,5 +1,6 @@
 const { extractValidFields } = require("../../lib/validation");
 const mysqlPool = require("../../lib/mysqlPool");
+const { getKeyByValue } = require("../../lib/helper");
 
 /**
  * Schema describing required/optional fields of a scan object.
@@ -8,22 +9,12 @@ const scanSchema = {
   date: { required: true },
   building: { required: true },
   room: { required: true },
-  category: { required: false },
+  department: { required: false },
   filename: { required: true },
 };
 exports.scanSchema = scanSchema;
 
-/**
- * Search dictionary to find specific value in a value array
- *    Example usage: Get building category by building name
- *      getKeyByValue(categoryDictionary,"Johnson Hall");
- *      @returns: "Engineering"
- */
-function getKeyByValue(object, value) {
-  return Object.keys(object).find((key) => object[key].includes(value));
-}
-
-const categoryDictionary = {
+const deptDictionary = {
   Engineering: ["Kelley Engineering Center", "Johnson Hall", "Dearborn Hall"],
   Agriculture: ["Strand Agricultural Hall"],
   Science: ["Weniger Hall"],
@@ -39,12 +30,12 @@ async function getScans(params) {
   var queryParams = [params.building, params.room];
 
   // Append query params into SQL query if a parameter was provided
-  if (params.toDate !== "") {
+  if (params.toDate !== undefined && params.toDate !== "") {
     query = query.concat(" AND date <= ? ");
     queryParams.push(params.toDate);
   }
 
-  if (params.fromDate !== "") {
+  if (params.fromDate !== undefined && params.fromDate !== "") {
     query = query.concat(" AND date >= ? ");
     queryParams.push(params.fromDate);
   }
@@ -55,16 +46,16 @@ async function getScans(params) {
 exports.getScans = getScans;
 
 /**
- * Get all buildings and optionally filter by category
+ * Get all buildings and optionally filter by department
  * @returns a list of buildings
  */
-async function getBuildings(category) {
+async function getBuildings(department) {
   var query = "SELECT DISTINCT building FROM scans";
   var queryParams = [];
 
-  if (category !== "") {
-    query = query.concat(" WHERE category = ? ");
-    queryParams.push(category);
+  if (department !== undefined && department !== "") {
+    query = query.concat(" WHERE department = ? ");
+    queryParams.push(department);
   }
 
   query = query.concat(" ORDER BY building ASC");
@@ -76,7 +67,7 @@ async function getBuildings(category) {
 exports.getBuildings = getBuildings;
 
 /**
- * Get all rooms in a building and optionally filter by date and category
+ * Get all rooms in a building
  * @returns a list of buildings
  */
 async function getRooms(building) {
@@ -96,7 +87,7 @@ exports.getRooms = getRooms;
  */
 async function insertScan(scan) {
   scan = extractValidFields(scan, scanSchema);
-  scan.category = getKeyByValue(categoryDictionary, scan.building);
+  scan.department = getKeyByValue(deptDictionary, scan.building);
 
   const [result] = await mysqlPool.query("INSERT INTO scans SET ? ", scan);
   console.log(" -- inserted id: ", result.insertId);

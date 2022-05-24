@@ -60,7 +60,7 @@ function InformationModal(props: any) {
           <p>Gavin Gutowsky</p>
           <p>Cristian Garibay</p>
         </div>
-
+        <br style={{ height: 100 }} />
         <h6 style={{ paddingTop: 20 }}>
           Download our app from the iOS App Store:
         </h6>
@@ -70,8 +70,8 @@ function InformationModal(props: any) {
           style={{ width: 100, height: 100 }}
         />
       </Modal.Body>
-      <br />
-      <ModalFooter>Qr code here</ModalFooter>
+
+      <ModalFooter></ModalFooter>
     </Modal>
   );
 }

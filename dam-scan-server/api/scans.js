@@ -9,6 +9,7 @@ const {
 } = require("./models/scans");
 const fs = require("fs");
 const multer = require("multer");
+const { flattenList } = require("../lib/helper");
 
 exports.router = router;
 
@@ -16,14 +17,9 @@ const acceptedFileTypes = {
   "application/octet-stream": "ply",
 };
 
-function flattenList(list, variableName) {
-  var results = [];
-  list.forEach((item) => {
-    results.push(item[variableName]);
-  });
-  return results;
-}
-
+/**
+ * Store LiDAR locally into uploads folder
+ */
 const upload = multer({
   storage: multer.diskStorage({
     destination: `${__dirname}/uploads`,
@@ -46,7 +42,7 @@ router.get("/", async function (req, res) {
     const params = {
       toDate: req.query.toDate,
       fromDate: req.query.fromDate,
-      category: req.query.category,
+      department: req.query.department,
       building: req.query.building,
       room: req.query.room,
       date: req.query.date,
@@ -69,7 +65,7 @@ router.get("/", async function (req, res) {
  */
 router.get("/buildings", async (req, res) => {
   try {
-    const results = await getBuildings(req.query.category);
+    const results = await getBuildings(req.query.department);
     const buildings = flattenList(results, "building");
 
     res.status(200).send(buildings);
