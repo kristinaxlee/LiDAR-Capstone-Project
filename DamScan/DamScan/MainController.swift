@@ -65,7 +65,7 @@ final class MainController: UIViewController, ARSessionDelegate, RendererDelegat
             tintColor: .white, hidden: !isUIEnabled)
         view.addSubview(toggleParticlesButton)
         
-        rgbButton = createButton(mainView: self, iconName: "video.slash",
+        rgbButton = createButton(mainView: self, iconName: "video",
             tintColor: .white, hidden: !isUIEnabled)
         view.addSubview(rgbButton)
         
@@ -96,9 +96,9 @@ final class MainController: UIViewController, ARSessionDelegate, RendererDelegat
             toggleParticlesButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
             
             rgbButton.widthAnchor.constraint(equalToConstant: 60),
-            rgbOffHeightAnchor,
+            rgbOnHeightAnchor,
             rgbButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50),
-            rgbOffBottomAnchor
+            rgbOnBottomAnchor
         ])
     }
     
@@ -126,17 +126,19 @@ final class MainController: UIViewController, ARSessionDelegate, RendererDelegat
         case rgbButton:
             renderer.rgbOn = !renderer.rgbOn
             if (!renderer.rgbOn) {
-                rgbButton.setBackgroundImage(.init(systemName: "video.slash"), for: .normal)
-                rgbOnHeightAnchor.isActive = false
-                rgbOffHeightAnchor.isActive = true
-                rgbOnBottomAnchor.isActive = false
-                rgbOffBottomAnchor.isActive = true
-            } else {
                 rgbButton.setBackgroundImage(.init(systemName: "video"), for: .normal)
-                rgbOffHeightAnchor.isActive = false
+                rgbButton.tintColor = .white
                 rgbOnHeightAnchor.isActive = true
-                rgbOffBottomAnchor.isActive = false
+                rgbOffHeightAnchor.isActive = false
                 rgbOnBottomAnchor.isActive = true
+                rgbOffBottomAnchor.isActive = false
+            } else {
+                rgbButton.tintColor = .red
+                rgbButton.setBackgroundImage(.init(systemName: "video.slash"), for: .normal)
+                rgbOffHeightAnchor.isActive = true
+                rgbOnHeightAnchor.isActive = false
+                rgbOffBottomAnchor.isActive = true
+                rgbOnBottomAnchor.isActive = false
             }
             
         case clearButton:
